@@ -9,6 +9,10 @@ namespace Domain.Entities
     public class AppointmentPerson : User
     {
         ICollection<Appointment> appointments;
+        public void AddAppointment(Appointment appointment)
+        {
+            appointments.Add(appointment);
+        }
 
         //public AppointmentPerson(string firstName, string LastName, string phoneNo, IEnumerable<Appointment> appointments): base(firstName, LastName, phoneNo)
         //{

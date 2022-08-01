@@ -9,6 +9,6 @@ namespace Domain.Services
 {
     public interface IUserService
     {
-        void CreateUser(User person);
+        //void CreateUser(User person);
     }
 }

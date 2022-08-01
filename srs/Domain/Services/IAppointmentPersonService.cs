@@ -8,6 +8,6 @@ namespace Domain.Services
 {
     public interface IAppointmentPersonService: IUserService
     {
-        bool CreateAppointment();
+        void CreateAppointment(Guid appoinmentPerson_Id, DateTime appointmentTime);
     }
 }

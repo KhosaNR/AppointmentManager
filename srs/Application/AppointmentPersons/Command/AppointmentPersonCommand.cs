@@ -1,6 +1,7 @@
 ﻿using Application.DTOs;
 using Application.Interfaces.Persistence;
 using Domain.Entities;
+using Domain.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,21 +12,22 @@ namespace Application.AppointmentPerson.Command
 {
     internal class AppointmentPersonCommand: IAppointmentPersonCommand
     {
-        public IAppointmentPersonRepository AppointmentPersonRepository;
         public IUnitOfWork UnitOfWork;
-        public AppointmentPersonCommand(IAppointmentPersonRepository appointmentReposistory, IUnitOfWork unitOfWork)
+        public IAppointmentPersonService AppointmentPersonService;
+
+        public AppointmentPersonCommand(IUnitOfWork unitOfWork, IAppointmentPersonService appointmentPersonService)
         {
-            AppointmentPersonRepository = appointmentReposistory;
             UnitOfWork = unitOfWork;
+            AppointmentPersonService = appointmentPersonService;
         }
 
         public async void SaveAppointmentPerson(Domain.Entities.AppointmentPerson appointmentPerson)
         {
             var id = appointmentPerson.ID;
-            if(AppointmentPersonRepository.GetById(id).Result == null) 
+            if (UnitOfWork.AppointmentPeople.GetById(id).Result == null) 
                 //TBD: return person already exists 
                 return;
-            await AppointmentPersonRepository.AddAsync(appointmentPerson);
+            await UnitOfWork.AppointmentPeople.AddAsync(appointmentPerson);
         }
 
         public void UpdateAppointmentPerson(Domain.Entities.AppointmentPerson appointmentPerson)
@@ -33,8 +35,8 @@ namespace Application.AppointmentPerson.Command
             //var id = appointmentPerson.ID;
             //if (AppointmentPersonRepository.GetById(id).Result == null)
             //    return;
-            AppointmentPersonRepository.Update(appointmentPerson);
-            UnitOfWork.SaveAsync();
+            UnitOfWork.AppointmentPeople.Update(appointmentPerson);
+            UnitOfWork.SaveChangesAsync();
 
         }
     }

@@ -12,5 +12,6 @@ namespace Application.Interfaces.Persistence
     {
         Task<IEnumerable<Domain.Entities.AppointmentPerson>> GetByLastName(string LastName);
         Task<IEnumerable<Domain.Entities.AppointmentPerson>> GetByPhoneNo(string phoneNo);
+        //void SaveChanges();
     }
 }

@@ -11,21 +11,15 @@ namespace Application.Services
 {
     internal class UserService: IUserService
     {
-        IUserRepository userRepository;
+        IUnitOfWork uow;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUnitOfWork unitOfWork)
         {
-            this.userRepository = userRepository;
+            this.uow = unitOfWork;
         }
 
-        public void CreateUser(User user)
+        public void CreateUser(string firstName, string lastName, string phoneNo)
         {
-            var existingUser = userRepository.GetExistingByPhoneNoAsync(user.PhoneNo);
-            if(existingUser != null)
-            {
-                throw new Exception($"User with phone number {user.PhoneNo} already exists");
-            }
-            userRepository.AddAsync(user);
         }
     }
 }
