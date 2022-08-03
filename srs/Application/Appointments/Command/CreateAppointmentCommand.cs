@@ -11,11 +11,11 @@ namespace Application.Appointments.Command
     internal class CreateAppointmentCommand : ICreateAppointmentCommand
     {
         //This does not look right.
-        IAppointmentReposistory AppointmentRepository;
+        IAppointmentRepository AppointmentRepository;
         IAppointmentPersonRepository PersonRepository;
         IUnitOfWork UnitOfWork;
 
-        public CreateAppointmentCommand(IAppointmentReposistory appointmentRepository, IAppointmentPersonRepository personRepository, IUnitOfWork unitOfWork)
+        public CreateAppointmentCommand(IAppointmentRepository appointmentRepository, IAppointmentPersonRepository personRepository, IUnitOfWork unitOfWork)
         {
             AppointmentRepository = appointmentRepository;
             PersonRepository = personRepository;

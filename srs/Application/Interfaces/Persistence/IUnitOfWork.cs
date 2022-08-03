@@ -8,7 +8,7 @@ namespace Application.Interfaces.Persistence
     public interface IUnitOfWork : IDisposable
     {
         IAppointmentPersonRepository AppointmentPeople { get; }
-        IAppointmentReposistory Appointments { get; }
+        IAppointmentRepository Appointments { get; }
         Task<int> SaveChangesAsync();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Application.Interfaces.Persistence;
 using Domain.Entities;
+using Infrastructure.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
@@ -14,7 +15,7 @@ namespace Infrastructure
     {
         private readonly ApplicationDbContext DbContext;
 
-        public UnitOfWork(ApplicationDbContext dbContext, IAppointmentPersonRepository appointmentPeople, IAppointmentReposistory appointments)
+        public UnitOfWork(ApplicationDbContext dbContext, IAppointmentPersonRepository appointmentPeople, IAppointmentRepository appointments)
         {
             DbContext = dbContext;
             AppointmentPeople = appointmentPeople;
@@ -22,7 +23,7 @@ namespace Infrastructure
         }
 
         public IAppointmentPersonRepository AppointmentPeople { get; }
-        public IAppointmentReposistory Appointments {get; }
+        public IAppointmentRepository Appointments {get; }
 
         public void Dispose()
         {

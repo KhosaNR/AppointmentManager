@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    internal class AppointmentPersonService: IAppointmentPersonService, IUserService
+    public class AppointmentPersonService: IAppointmentPersonService, IUserService
     {
         IUnitOfWork uow;
 

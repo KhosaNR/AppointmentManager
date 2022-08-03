@@ -10,9 +10,15 @@
 
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
+    <PackageReference Include="MediatR" Version="10.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Text.UI" Version="17.2.3194" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="AppointmentPersons\Commands\" />
+    <Folder Include="AppointmentPersons\Handlers\" />
+    <Folder Include="AppointmentPersons\Queries\" />
+    <Folder Include="AppointmentPersons\Validators\" />
     <Folder Include="Appointments\Queries\" />
   </ItemGroup>
 

@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Application.Interfaces.Persistence
 {
-    public interface IAppointmentReposistory: IGenericRepository<Appointment>
+    public interface IAppointmentRepository: IGenericRepository<Appointment>
     {
     }
 }
