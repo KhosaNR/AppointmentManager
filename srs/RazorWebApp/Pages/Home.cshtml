@@ -1,0 +1,118 @@
+﻿@page
+@model RazorWebApp.Pages.HomeModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="hero-image" style="width:100%;height:100px">
+    <div class="hero-text ">
+        <div id="banner_header">DR KHOSA NT</div>
+        <div id="slogan">we care about your well-being</div>
+    </div>
+</div>
+
+<p></p>
+
+<div class="container-fluid rounded ">
+
+    <div class="centred-text">
+        <div class="col-12" style="background-color:lightsteelblue;height:5rem">
+            <p style="font-weight:bold;color:white"> <br />Patient needs to be booked to see the doctor<br /> </p>
+            <hr style="color:white">
+        </div>
+        <p></p>
+        <a class="btn btn-primary rounded-button dropdown-toggle mb-0" data-bs-toggle="collapse" href="#appointmentItems" role="button" aria-expanded="false" aria-controls="#appointmentItems">
+            Appointments
+            <span class="glyphicon glyphicon-menu-down"></span>
+        </a>
+        <div class="collapse" id="appointmentItems">
+            <div class="container" style="width: 50%;">
+                <ul style="list-style-type:none;">
+                    <li> <a class="btn btn-primary rounded-button child-button-color"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
+                    <li> <a class="btn btn-primary rounded-button child-button-color"><i class=" fa-regular fa-calendar-days button-icons"> </i>UPDATE</a> </li>
+                    <li> <a class="btn btn-primary rounded-button warning-button-color"><i class=" fa-regular fa-calendar-xmark button-icons">  </i>Cancel</a> </li>
+                    <li> <a class="btn btn-primary rounded-button dull-button-color"><i class=" fa-solid fa-phone-volume button-icons">  </i>Call Us</a> </li>
+                </ul>
+            </div>
+        </div>
+
+        <p></p>
+        @*<p>&nbsp;</p>*@
+
+        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner" style="margin: auto;">
+                <div class="carousel-item active">
+                    <div class="card" style="width: 18rem;border:none;margin: auto;background-color:#D1DAB1">
+                        <div class="card-header" style="height:60px">
+                            <h5 class="card-title mx-0 px-0"><i class="fa-solid fa-notes-medical button-icons"></i>Medical Aid</h5>
+                            <p class="mx-0 px-0 text-muted:" style="margin:-10px;color:grey">We accept the following: </p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" style="background-color:#E7E9D2">Fedhealth</li>
+                            <li class="list-group-item" style="background-color:#E7EDD7">Discovery</li>
+                            <li class="list-group-item" style="background-color:#E7E9D2">Gems</li>
+                            <li class="list-group-item" style="background-color:#E7EDD7"><a href="https://example.com">More</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="card" style="width: 18rem; height:230px;border:none;margin: auto;background-color:#E7E9D2">
+                        <div class="card-header" style="background-color:#D1DAB1;height:60px">
+                            <h5 class="card-title"><i class="fa-solid fa-wallet button-icons"></i>Pricing</h5>
+                        </div>
+                        <ul class="list-group list-group-flush">
+
+                            <li class="list-group-item" style="background-color:#E7E9D2">
+                                <div class="center-container">
+                                    <span class="centered-right">Consultation</span>
+                                    <span class="centered-left"> <b>R350</b></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+
+    </div>
+</div>
+
+@*<div class="row justify-content-center">
+    <div class="col-6 ">
+    <div class="card right-shadow" style="width: 20rem;text-align:right;margin:auto;">
+    <div class="card-header bold-text">
+    <i class="fa-solid fa-location-dot"></i> Address
+    </div>
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item">123 Cross Street</li>
+    <li class="list-group-item">Pretoria</li>
+    <li class="list-group-item">0001</li>
+    <li class="list-group-item">South Africa</li>
+    </ul>
+    </div>
+    </div>
+    <div class="col-6">
+    <div class="card left-shadow" style="width: 20rem;margin:auto">
+    <div class="card-header bold-text" ;>
+    <i class="fa-regular fa-clock"></i>
+    Working hours
+    </div>
+    <ul class="list-group list-group-flush">
+    <li class="list-group-item">Monday-Friday : 09:00 - 17:00</li>
+    <li class="list-group-item">Saturday : 09:00 - 15:00</li>
+    <li class="list-group-item">Sunday : 09:00 - 12:00</li>
+    </ul>
+    <div class="card-footer">
+    Emergencies (After hours): 012 345 6789
+    </div>
+    </div>
+    </div>
+    </div>*@

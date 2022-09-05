@@ -1,0 +1,153 @@
+﻿html {
+    font-size: 14px;
+    background-color: gray;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #D1DDEC;
+}
+
+body, html {
+    height: 100%;
+}
+
+
+.hero-image {
+    background-image: url("../Img/MomAndSonBlueSteel.jpg"),linear-gradient(lightsteelblue, lightsteelblue);
+    /*    height: 100%;
+    width: 100%;*/
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: relative;
+    border-radius: 20px;
+    /*background-color: #B0C4DE;*/
+    /*box-shadow: 0 0 1px 1px #296B91 inset;*/
+}
+
+/* Place text in the middle of the image */
+.hero-text {
+    text-align: center;
+    position: absolute;
+    font: bold;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-family: Bahnschrift;
+    line-height: 1;
+}
+
+#banner_header {
+    font-size: 60px;
+}
+
+#slogan {
+    color: ghostwhite;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.centred-text {
+    text-align: center;
+}
+
+.bold-text {
+    font-weight: bold
+}
+
+.rounded-button {
+    border-radius: 25px;
+    /*font-weight: bold;*/
+    background-color: #557CAE;
+    border: none;
+    margin-top: 10px;
+    justify-content: space-between;
+}
+
+.child-button-color {
+    background-color: steelblue;
+    font-weight: normal;
+    width: 110px;
+}
+
+.dull-button-color {
+    background-color: lightsteelblue;
+    font-weight: normal;
+    width: 110px;
+}
+
+.warning-button-color {
+    background-color: burlywood;
+    width: 110px;
+}
+
+ul {
+    padding: 0;
+    width: 100%;
+}
+
+li {
+    margin: 0px;
+    /*list-style-type: none;*/
+}
+
+.address {
+    text-align: right
+}
+
+.right-shadow {
+    box-shadow: 4px -4px 3px lightgrey;
+}
+
+.left-shadow {
+    box-shadow: -4px -4px 3px lightgrey;
+}
+
+.dropdown-toggle[aria-expanded="true"]:after {
+    transform: rotate(-180deg);
+}
+/*for animation*/
+.dropdown-toggle:after {
+    transition: 0.7s;
+}
+
+.button-icons {
+    margin-right: 0.5em;
+    justify-content: start;
+}
+
+.centered-left {
+    text-align: left;
+    width: 50%;
+    padding-left;
+}
+
+.centered-right {
+    text-align: right;
+    width: 50%;
+    padding: 0 5px 0 10px;
+    box-sizing: border-box;
+}
+
+.center-container {
+    display: flex;
+}

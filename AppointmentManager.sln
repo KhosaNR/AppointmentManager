@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "srs\Applicat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "srs\Infrastructure\Infrastructure.csproj", "{1FD1867D-A6A3-4C8C-9733-C6E50546018A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RazorWebApp", "srs\RazorWebApp\RazorWebApp.csproj", "{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{1FD1867D-A6A3-4C8C-9733-C6E50546018A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FD1867D-A6A3-4C8C-9733-C6E50546018A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FD1867D-A6A3-4C8C-9733-C6E50546018A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{615B8671-E4B1-48E4-BE30-6F9675C11571} = {E4BE4757-2F8E-4278-8F7B-CD2A3D3FF60E}
 		{1A8B3AC3-595A-4ADA-BFDF-CE3197EBE8CF} = {E4BE4757-2F8E-4278-8F7B-CD2A3D3FF60E}
 		{1FD1867D-A6A3-4C8C-9733-C6E50546018A} = {E4BE4757-2F8E-4278-8F7B-CD2A3D3FF60E}
+		{F41B6B80-BA82-45E1-9530-8EFDE73C9F3C} = {E4BE4757-2F8E-4278-8F7B-CD2A3D3FF60E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C00D825D-D07F-4153-903E-E536A60D8A70}
