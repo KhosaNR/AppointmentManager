@@ -9,6 +9,6 @@ namespace Application.AppointmentsPersons.Queries
 {
     public interface IAppointmentClientQueries
     {
-        PhoneNoHasPendingAppointment(string phoneNo)
+        bool PhoneNoHasPendingAppointment(string phoneNo);
     }
 }

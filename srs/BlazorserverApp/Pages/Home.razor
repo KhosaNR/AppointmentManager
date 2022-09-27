@@ -27,16 +27,14 @@
             <span class="glyphicon glyphicon-menu-down"></span>
         </a>
 
-        <a class="btn btn-primary" @onclick="BookAppointment_Click">
+@*        <a class="btn btn-primary" @onclick="BookAppointment_Click">
             Test
-        </a>
-
-        <a class="btn" asp-area="" asp-page="/Index">Click</a>
+        </a>*@
 
         <div class="collapse" id="appointmentItems">
             <div class="container" style="width: 50%;">
                 <ul style="list-style-type:none;">
-                    <li> <a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-primary rounded-button child-button-color"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
+                    <li> <a class="btn btn-primary rounded-button child-button-color" @onclick="BookAppointment_Click"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
                     <li> <a class="btn btn-primary rounded-button child-button-color"><i class=" fa-regular fa-calendar-days button-icons"> </i>UPDATE</a> </li>
                     <li> <a class="btn btn-primary rounded-button warning-button-color"><i class=" fa-regular fa-calendar-xmark button-icons">  </i>Cancel</a> </li>
                     <li> <a class="btn btn-primary rounded-button dull-button-color"><i class=" fa-solid fa-phone-volume button-icons">  </i>Call Us</a> </li>
@@ -46,20 +44,6 @@
 
 
         <p></p>
-        @*<p>&nbsp;</p>*@
-
-        @*<component type="typeof(CreateAppointmentClient)" render-mode="Static" />*@
-
-
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <CreateAppointmentClient OnCreateClient="CreateClient" />
-                    @*<component type="typeof(AppointmentClient)" render-mode="Static" />*@
-                </div>
-            </div>
-        </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" style="margin: auto;">
