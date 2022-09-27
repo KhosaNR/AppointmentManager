@@ -1,0 +1,81 @@
+﻿<!-- Trigger the modal with a button -->
+@page "/AppointmentClient"
+@using System.Diagnostics
+@namespace TestComp
+<!-- Modal -->
+<div class="modal-header">
+    <h4 class="modal-title"><i class="fa-regular fa-calendar-plus button-icons"> </i>Book Appointment</h4>
+</div>
+<div class="modal-body">
+    <form OnSubmit="MyFunction" method="post" >
+        <div class="form-group row">
+            <label for="clientLastName" class="col-sm-4 col-form-label text-start fw-bolder">Last Name</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="clientLastName" placeholder="Enter last name" required>
+            </div>
+        </div>
+        <p />
+        <div class="form-group row">
+            <label for="clientFirstName" class="col-sm-4 col-form-label text-start fw-bolder">
+                First Names
+            </label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="clientFirstName" placeholder="Enter first names" required>
+            </div>
+        </div>
+        <p />
+        <div class="form-group row">
+            <label for="clientPhoneNo" class="col-sm-4 col-form-label text-start fw-bolder">
+                Cellphone number
+            </label>
+            <div class="col-sm-8">
+                <input type="number" class="form-control" id="clientPhoneNo" placeholder="0812345678" required>
+            </div>
+        </div>
+        <p />
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-4 col-form-label text-start fw-bolder">
+                Email address
+            </label>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" id="staticEmail" placeholder="email@example.com">
+            </div>
+        </div>
+        <p />
+        <div class="form-group row">
+            <label for="paymentMethod" class="col-sm-4 col-form-label text-start fw-bolder">
+                Payment method
+            </label>
+            <div class="col-sm-8">
+                <div class="input-group mb-3" id="paymentMethod">
+                    <select class="form-select" id="inputGroupSelect01">
+                        <option selected>Choose...</option>
+                        <option value="1">Cash</option>
+                        <option value="2">Medical aid</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <p />
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-primary" asp-page="/Index">Continue</button>
+    <button type="button" @onclick="myFunction" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+    <a class="btn" asp-area="" asp-page="/Index">Click</a>
+</div>
+
+<a class="btn" asp-area="" href="../Home">Click</a>
+
+@inject NavigationManager NavigationManager
+@code {
+    private string temp;
+
+    private void OnPost()
+    {
+        Debug.WriteLine("Submit sent");
+        Debugger.Log(1,"submit logged","new new");
+        NavigationManager.NavigateTo("/Index");
+        //return RedirectToPage("/Index");
+    }
+}

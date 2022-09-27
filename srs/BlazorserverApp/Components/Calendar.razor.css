@@ -1,0 +1,124 @@
+﻿/*body {
+}
+
+table, td, th {
+    border: 1px solid #111;
+    padding: 10px;
+}
+
+.event {
+    display: none;
+}
+
+#eventtable {
+    display: none;
+    margin-top: 10px;
+}
+
+#eventtable.active {
+    display: table;
+}
+*/
+
+.icon-bg {
+    background-color: lightseagreen !important;
+}
+
+.text-right-fc {
+    text-align: right !important;
+}
+
+.text-left-fc {
+    text-align: left !important;
+}
+
+.text-center-fc {
+    text-align: center !important;
+}
+
+.booked-slot {
+    background-color: #F0BFAB !important;
+}
+
+.free-slot {
+    background-color: #E8F7F6 !important;
+}
+
+.cells {
+    border-radius: 0.4em !important;
+    padding: 1em !important;
+    /*text-align: center;*/
+}
+
+.selected-slot {
+    background-color: cornflowerblue !important;
+}
+
+.big-icons {
+    font-weight: 400 !important;
+    text-align: center !important;
+    font-size: larger;
+    color: white;
+    border-radius: 4rem;
+}
+
+.red-text {
+    color: red !important;
+}
+
+.big-text {
+    font-size: larger;
+    color: midnightblue !important;
+}
+
+.table-wrapper {
+    max-height:20rem;
+    overflow: auto;
+    display: inline-block;
+}
+
+.td-wrapper {
+    /*    max-height: 20rem;
+    overflow: auto;*/
+    /*display: inline-block;*/
+
+    display: block;
+    overflow: auto;
+    height: 200px;
+    width: 100%;
+}
+
+
+.header {
+    position: relative;
+    left: 1rem;
+}
+
+.scroll {
+    font-size: 30px;
+    font-size: bold;
+    color: red;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    .scroll:hover {
+        color: gray;
+        cursor: pointer;
+    }
+
+.left-scroll {
+    position: relative;
+    z-index: 10;
+    left: -20px;
+    top: 77px;
+}
+
+.right-scroll {
+    position: relative;
+    z-index: 10;
+    left: 550px;
+    top: 77px;
+}

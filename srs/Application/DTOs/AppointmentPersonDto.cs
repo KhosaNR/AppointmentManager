@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTOs
+namespace Slot.DTOs
 {
     public class AppointmentPersonDto
     {
@@ -12,6 +12,6 @@ namespace Application.DTOs
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string PhoneNo { get; set; }
-        public IEnumerable<AppointmentDto> Appointments { get; set; }
+        public List<SlotDto> Slots { get; set; }  = new List<SlotDto>();
     }
 }

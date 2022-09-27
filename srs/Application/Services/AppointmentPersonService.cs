@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Persistence;
+﻿using Domain.Interfaces.Persistence;
 using Domain.Entities;
 using Domain.Services;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Services
+namespace Slot.Services
 {
     public class AppointmentPersonService: IAppointmentPersonService, IUserService
     {
@@ -27,13 +27,13 @@ namespace Application.Services
             {
                 AppointmentDate = appointmentTime,
                 Status = Domain.Enums.AppointmentStatus.Booked,
-                AppointmentPerson_Id = appoinmentPerson_Id,
+                Person_Id = appoinmentPerson_Id,
             };
             appointmentPerson.AddAppointment(appointment);
             uow.SaveChangesAsync();
         }
 
-        public void CreateUser(string firstName, string lastName, string PhoneNo)
+        public void CreateUser(string firstName, string lastName, string PhoneNo, DateTime appointmentTime)
         {
             var appointmentPerson = new Domain.Entities.AppointmentPerson
             {
@@ -41,6 +41,11 @@ namespace Application.Services
                 LastName = lastName,
                 PhoneNo = PhoneNo
             };
+            Appointment appointment = new()
+            {
+                AppointmentDate = appointmentTime
+            };
+            appointmentPerson.AddAppointment(appointment);
             uow.AppointmentPeople.AddAsync(appointmentPerson);
             uow.SaveChangesAsync();
         }

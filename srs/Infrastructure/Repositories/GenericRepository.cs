@@ -1,4 +1,4 @@
-﻿using Application.Iterface.Persistence;
+﻿using Domain.Interfaces.Persistence;
 using Infrastructure.Base;
 using Microsoft.EntityFrameworkCore;
 using System;

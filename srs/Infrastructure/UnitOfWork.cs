@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Persistence;
+﻿using Domain.Interfaces.Persistence;
 using Domain.Entities;
 using Infrastructure.Base;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +8,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using System.Data.Entity;
 
 namespace Infrastructure
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ApplicationDbContext DbContext;
+        private bool _disposed;
 
         public UnitOfWork(ApplicationDbContext dbContext, IAppointmentPersonRepository appointmentPeople, IAppointmentRepository appointments)
         {
@@ -25,12 +27,25 @@ namespace Infrastructure
         public IAppointmentPersonRepository AppointmentPeople { get; }
         public IAppointmentRepository Appointments {get; }
 
-        public void Dispose()
+        protected virtual void Dispose(bool disposing)
         {
-            throw new NotImplementedException();
+            if (!_disposed)
+            {
+                if (disposing)
+                {
+                    DbContext.Dispose();
+                }
+            }
+            _disposed = true;
         }
 
-        public Task<int> SaveChangesAsync()//bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public async Task<int> SaveChangesAsync()//bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             //var changeTracker = DbContext.ChangeTracker;
 
@@ -46,14 +61,14 @@ namespace Infrastructure
                 }
                 else if (entityEntry.State == EntityState.Added)
                 {
-                    entityEntry.Property("ID").CurrentValue = Guid.NewGuid();
+                    entityEntry.Property("Id").CurrentValue = Guid.NewGuid();
                     entityEntry.Property("CreatedDate").CurrentValue = DateTime.Now;
                     entityEntry.Property("UpdatedDate").CurrentValue = DateTime.Now;
                 }
 
             }
 
-            return DbContext.SaveChangesAsync();
+            return await DbContext.SaveChangesAsync();
         }
     }
 }

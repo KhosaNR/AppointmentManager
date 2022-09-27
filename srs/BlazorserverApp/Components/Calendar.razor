@@ -1,0 +1,232 @@
+﻿@page "/Calendar"
+@namespace BlazorserverApp.Components
+@using Domain.Interfaces.Persistence;
+@using Application.Appointments.Queries;
+@inject IJSRuntime _jsRuntime
+
+<h4 class="header">Schedule your appointment</h4>
+<div class="row">
+    <div class="col-1-ms header">
+        @if (ValidDateSelected)
+        {
+            <p>
+                Your selected appoinment time:
+                <span class="text-xxl-start big-text">
+                    <b>
+                        @SelectedDate.Date.ToString("dddd, dd MMMM yyyy") at @SelectedDate.TimeOfDay.ToString()
+                    </b>
+                </span>
+            </p>
+        }
+        else
+        {
+            <p class="@SelectionMessageCsstyle">
+                @SelectionMessage
+            </p>
+        }
+    </div>
+    <div class="col-1-ms header">
+        <button type="button" class="btn btn-secondary" @onclick="BackToPreviousPage">
+            Back
+        </button>
+        <button disabled=@ContinueButtonDisabled data-bs-dismiss="modal" class="btn btn-primary"
+                colspan="1"
+                data-bs-toggle="modal" data-bs-target="#CreateAppointment_Modal"
+                data-backdrop="false">
+            Continue
+        </button>
+    </div>
+</div>
+<br />
+
+<div id="CreateAppointment_Modal" class="modal fade" role="dialog" data-backdrop="false">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <CreateAppointmentClient AppointmentDateTimeString=@SelectedDate.ToString() />
+            @*<component type="typeof(AppointmentClient)" render-mode="Static" />*@
+        </div>
+    </div>
+</div>
+
+@if (BookedAppointmentTimes is null)
+{
+    <div class="spinner-border text-info header" role="status">
+        <span class="sr-only">Loading...</span>
+    </div>
+}
+else
+{
+    <div class="container table-wrapper">
+        <table class="table table-bordered table-responsive">
+            <thead class="fixed_header">
+                <tr>
+                    <th scope="col" colspan="1" />
+                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="PreviousDay_Click">
+                        <a class="big-icons">
+                            <i class="fa-solid fa-angles-left"></i>
+                        </a>
+                    </th>
+                    <th scope="col" colspan="5" />
+                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="NextDay_Click">
+                        <a class="big-icons">
+                            <i class="fa-solid fa-angles-right"></i>
+                        </a>
+                    </th>
+                </tr>
+                <tr>
+                    <th scope="col"></th>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        <th scope="col">@LeastVisibleDate.AddDays(i).DayOfWeek.ToString()</th>
+                    }
+                </tr>
+                <tr>
+                    <th scope="col">Time</th>
+                    @for (int i = 0; i < 7; i++)
+                    {
+                        <th scope="col">@LeastVisibleDate.AddDays(i).ToShortDateString()</th>
+                    }
+                </tr>
+            </thead>
+            <tbody>
+                @for (TimeSpan i = StarTime; TimeSpan.Compare(i, EndTime) < 0; i = i.Add(AppointmentSpan))
+                {
+                    if (IsLunchBreak(i)) { continue; }
+
+                    <tr>
+                        <th scope="row">@i.ToString(@"hh\:mm")</th>
+                        @for (int j = 0; j < 7; j++)
+                        {
+                            var currentSlot = LeastVisibleDate.Date.AddDays(j).Add(i);
+                            var slotIsTaken = SlotIsTaken(currentSlot);
+                            SlotCellStyle = slotIsTaken ? @"booked-slot" : @"free-slot";
+                            SlotCellStyle = ThisIsTheSelectedSlot(currentSlot) ? @"selected-slot" : SlotCellStyle;
+                            var slotDateTime = LeastVisibleDate.Date.AddDays(j).Add(i);
+                            <td class="@SlotCellStyle rounded cells" @onclick="(x=>SelectedSlot_Click(slotDateTime, slotIsTaken))"></td>
+                        }
+                    </tr>
+
+                }
+            </tbody>
+        </table>
+    </div>
+}
+@code {
+
+    [Inject]
+    public NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    public IUnitOfWork uow { get; set; }
+
+    //[Inject]
+    private AppointmentQueries appointmentQueries { get; set; }
+
+    public DateTime SelectedDate { get; set; }
+    private bool ValidDateSelected = false;
+    private string SelectionMessage = "Please select your appointment slot below.";
+    private IEnumerable<DateTime> BookedAppointmentTimes { get; set; }
+
+    DateTime MinimunDate = DateTime.Now;
+    TimeSpan StarTime = new TimeSpan(8, 00, 00);
+    TimeSpan EndTime = new TimeSpan(17, 00, 0);
+    TimeSpan AppointmentSpan = new TimeSpan(0, 15, 0);
+    DateTime LeastVisibleDate = DateTime.Now;
+    TimeSpan StartLunchtime = new TimeSpan(13, 0, 0);
+    TimeSpan EndLunchTime = new TimeSpan(14, 0, 0);
+    String SlotCellStyle = "free-slot";
+    string SelectionMessageCsstyle = "";
+    bool ContinueButtonDisabled = true;
+    private bool DoneLoadingCalenderSlot = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        appointmentQueries = new(uow);
+        await Task.Run(GetSlotsForWeek);
+    }
+
+    protected async Task GetSlotsForWeek()
+    {
+        BookedAppointmentTimes = await appointmentQueries.GetForWeek(LeastVisibleDate);
+        //await Task.Delay(1);
+    }
+
+    private async void NextDay_Click()
+    {
+        LeastVisibleDate = LeastVisibleDate.AddDays(1);
+        await Task.Run(UpdateSlots);
+    }
+
+    private async Task UpdateSlots()
+    {
+        //BookedAppointmentTimes = null;
+        await GetSlotsForWeek();
+    }
+
+    private async Task PreviousDay_Click()
+    {
+        if (DateTime.Compare(LeastVisibleDate.Date, DateTime.Now.Date) > 0)
+        {
+            await Task.Run(UpdateSlots);
+            LeastVisibleDate = LeastVisibleDate.AddDays(-1);
+        }
+    }
+
+    private bool SlotIsTaken(DateTime slotTime)
+    {
+
+        if (DateTime.Compare(slotTime, DateTime.Now.Add(AppointmentSpan)) <= 0)
+        {
+            return true;
+        }
+        //query db here
+        //return appointmentQueries.AppointmentExists(slotTime);
+        return BookedAppointmentTimes.Any(x =>
+            DateTime.Compare(x, slotTime) == 0);
+    }
+
+    private bool IsLunchBreak(TimeSpan slot)
+    {
+        return TimeSpan.Compare(slot, StartLunchtime) >= 0 && TimeSpan.Compare(slot, EndLunchTime) < 0;
+    }
+
+    protected async Task Calendar_Continue_Click()
+    {
+        if (!ValidDateSelected)
+        {
+            return;
+        }
+
+        NavigationManager.NavigateTo("/");
+
+        //await OnCreateClient.InvokeAsync(appointemntClient);
+    }
+
+    private void SelectedSlot_Click(DateTime selectedDate, bool slotIsTaken)
+    {
+        if (slotIsTaken)
+        {
+            SelectionMessage = "The selected slot is already taken. Please select a different slot.";
+            ValidDateSelected = false;
+            SelectionMessageCsstyle = "red-text";
+            ContinueButtonDisabled = true;
+            return;
+        }
+        SelectionMessageCsstyle = "";
+        SelectedDate = selectedDate;
+        ValidDateSelected = true;
+        ContinueButtonDisabled = false;
+
+    }
+
+    private bool ThisIsTheSelectedSlot(DateTime slotDate)
+    {
+        return DateTime.Compare(SelectedDate, slotDate) == 0;
+    }
+
+    private async Task BackToPreviousPage()
+    {
+        await _jsRuntime.InvokeVoidAsync("history.back", -1);
+    }
+}

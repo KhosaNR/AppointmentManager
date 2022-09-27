@@ -1,4 +1,4 @@
-﻿using Application.Interfaces.Persistence;
+﻿using Domain.Interfaces.Persistence;
 using Domain.Entities;
 using Infrastructure.Base;
 using Infrastructure.Repositories;
@@ -21,8 +21,14 @@ namespace Infrastructure
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddDbContext<ApplicationDbContext>(opt => opt
-                .UseSqlServer("Server=(LOCAL)\\SQL2017; Database=AppoinmentMaker;Trusted_Connection=True;User Id=sa;Password=Mypassword1;"));
+                .UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=AppointmentManager_0;Trusted_Connection=True;MultipleActiveResultSets=true"));
+            services.AddTransient<ApplicationDbContext>();
             return services;
         }
+
+        //public static IWebApplicationBuilder AddInfrastructure(this IWebApplicationBuilder builder)
+        //{
+        //    return builder;
+        //}
     }
 }

@@ -13,7 +13,7 @@ namespace Domain.Entities
     {
         //public string AppointmentCode { get; set; }
         public DateTime? AppointmentDate { get; set; }
-        public Guid AppointmentPerson_Id { get; set; }
+        public Guid Person_Id { get; set; }
         public  readonly TimeSpan AppointmentDuration = TimeSpan.FromMinutes(30);
 
         public AppointmentStatus Status { get; set; }

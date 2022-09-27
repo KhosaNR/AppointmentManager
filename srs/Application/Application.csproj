@@ -17,9 +17,13 @@
   <ItemGroup>
     <Folder Include="AppointmentPersons\Commands\" />
     <Folder Include="AppointmentPersons\Handlers\" />
-    <Folder Include="AppointmentPersons\Queries\" />
     <Folder Include="AppointmentPersons\Validators\" />
-    <Folder Include="Appointments\Queries\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions">
+      <HintPath>..\..\..\..\NugetPackageReferences\microsoft.extensions.dependencyinjection.abstractions\6.0.0\lib\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -1,12 +1,6 @@
-﻿using Application.Iterface.Persistence;
-using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Interfaces.Persistence;
 
-namespace Application.Interfaces.Persistence
+namespace Domain.Interfaces.Persistence
 {
     public interface IAppointmentPersonRepository: IGenericRepository<Domain.Entities.AppointmentPerson>
     {

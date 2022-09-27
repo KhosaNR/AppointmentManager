@@ -1,0 +1,70 @@
+﻿@page "/ThankYou/{AppointmentDateTimeString}"
+
+<div class="jumbotron">
+    <h1 class="display-4">Thank you</h1>
+    @*    <p class="lead">
+    Thank you for booking an appointment with us @Name.
+    </p>*@
+    <p>
+        You have been booked for <strong>@DateTime.Parse(AppointmentDateTimeString).Date.ToString("dddd, dd MMMM yyyy") at @DateTime.Parse(AppointmentDateTimeString).TimeOfDay.ToString().</strong>
+        We shall call you shortly to confirm the appointment.
+    </p>
+    <hr class="my-3">
+</div>
+
+@if (!(messageSent||invalidSubmit))
+{
+    <form @onsubmit="SendMessage_Click">
+        <div class="form-group">
+            <label for="message_us">Want to add extra information? <strong> Send us a short message </strong> </label>
+            <p />
+            <textarea maxlength="200" class="form-control col-5" id="message_us" rows="3" required />
+            <p></p>
+            <button type="submit" class="btn btn-primary mb-2">Send</button>
+        </div>
+    </form>
+}
+
+@if (messageSent)
+{
+    <div class="alert alert-success" role="alert">
+        Your message was sent!
+    </div>
+}
+
+@if (invalidSubmit)
+{
+    <div class="alert alert-danger" role="alert">
+        Oops! something went wrong.
+    </div>
+}
+
+
+@code {
+
+    @inject IJSRuntime jsRuntime;
+
+    [Parameter]
+    public string AppointmentDateTimeString { get; set; }
+
+
+    private bool messageSent = false;
+    private bool invalidSubmit = false;
+
+    protected override void OnInitialized()
+    {
+        if (string.IsNullOrEmpty(AppointmentDateTimeString)){
+            AppointmentDateTimeString = DateTime.MinValue.ToString();
+        }
+    }
+
+    protected async Task SendMessage_Click()
+    {
+        if (string.Compare(AppointmentDateTimeString, DateTime.MinValue.ToString())==0){
+            invalidSubmit = true;
+            return;
+        }
+        messageSent = true;
+    }
+
+}

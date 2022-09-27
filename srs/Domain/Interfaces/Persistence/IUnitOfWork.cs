@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces.Persistence
+namespace Domain.Interfaces.Persistence
 {
     public interface IUnitOfWork : IDisposable
     {

@@ -9,6 +9,7 @@ namespace Domain.Enums
     public enum AppointmentStatus
     {
         Booked,
+        Confirmed,
         InSession,
         Done,
         Cancelled,

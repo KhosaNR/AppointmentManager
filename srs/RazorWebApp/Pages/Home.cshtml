@@ -1,7 +1,7 @@
-﻿@page
+﻿@page "/Home"
 @model RazorWebApp.Pages.HomeModel
 @{
-    ViewData["Title"] = "Home page";
+    //ViewData["Title"] = "Home page";
 }
 
 <div class="hero-image" style="width:100%;height:100px">
@@ -25,10 +25,17 @@
             Appointments
             <span class="glyphicon glyphicon-menu-down"></span>
         </a>
+
+        <a class="btn btn-primary" href="/AppointmentClient" data-bs-toggle="modal" data-bs-target="#myModal" OnDoneCallback="OnModalDone">
+            Test
+        </a>
+
+        <a class="btn" asp-area="" asp-page="/Index">Click</a>
+
         <div class="collapse" id="appointmentItems">
             <div class="container" style="width: 50%;">
                 <ul style="list-style-type:none;">
-                    <li> <a class="btn btn-primary rounded-button child-button-color"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
+                    <li> <a data-bs-toggle="modal" data-bs-target="#myModal" class="btn btn-primary rounded-button child-button-color"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
                     <li> <a class="btn btn-primary rounded-button child-button-color"><i class=" fa-regular fa-calendar-days button-icons"> </i>UPDATE</a> </li>
                     <li> <a class="btn btn-primary rounded-button warning-button-color"><i class=" fa-regular fa-calendar-xmark button-icons">  </i>Cancel</a> </li>
                     <li> <a class="btn btn-primary rounded-button dull-button-color"><i class=" fa-solid fa-phone-volume button-icons">  </i>Call Us</a> </li>
@@ -36,8 +43,21 @@
             </div>
         </div>
 
+
         <p></p>
         @*<p>&nbsp;</p>*@
+
+        @*<component type="typeof(AppointmentClient)" render-mode="Static" />*@
+
+
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <component type="typeof(AppointmentClient)" render-mode="Static" />
+                </div>
+            </div>
+        </div>
 
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" style="margin: auto;">

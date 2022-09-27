@@ -8,12 +8,12 @@ namespace Domain.Entities
 {
     public class AppointmentPerson : User
     {
-        ICollection<Appointment> appointments;
+        private List<Appointment> _Appointments = new List<Appointment>();
         public void AddAppointment(Appointment appointment)
         {
-            appointments.Add(appointment);
+            _Appointments.Add(appointment);
         }
-
+        public ICollection<Appointment> Appointments{ get{return _Appointments;} }
         //public AppointmentPerson(string firstName, string LastName, string phoneNo, IEnumerable<Appointment> appointments): base(firstName, LastName, phoneNo)
         //{
         //    Appointments = appointments;
