@@ -17,15 +17,15 @@ namespace Infrastructure
         private readonly ApplicationDbContext DbContext;
         private bool _disposed;
 
-        public UnitOfWork(ApplicationDbContext dbContext, IAppointmentPersonRepository appointmentPeople, IAppointmentRepository appointments)
+        public UnitOfWork(ApplicationDbContext dbContext, IClientRepository clients, ISlotRepository slots)
         {
             DbContext = dbContext;
-            AppointmentPeople = appointmentPeople;
-            Appointments = appointments;
+            Clients = clients;
+            Slots = slots;
         }
 
-        public IAppointmentPersonRepository AppointmentPeople { get; }
-        public IAppointmentRepository Appointments {get; }
+        public IClientRepository Clients { get; }
+        public ISlotRepository Slots {get; }
 
         protected virtual void Dispose(bool disposing)
         {

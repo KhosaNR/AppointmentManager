@@ -9,14 +9,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Infrastructure.EntityConfigurations;
-public class AppointmentPersonTypeConfiguration :  IEntityTypeConfiguration<AppointmentPerson>
+public class ClientTypeConfiguration :  IEntityTypeConfiguration<Domain.Entities.Client>
 {
-    public void Configure(EntityTypeBuilder<AppointmentPerson> apointmentPersonConfiguration)
+    public void Configure(EntityTypeBuilder<Domain.Entities.Client> apointmentPersonConfiguration)
     {
-        //apointmentPersonConfiguration.ToTable("AppointmentPerson");
-        apointmentPersonConfiguration.HasMany(x => x.Appointments);
+        //apointmentPersonConfiguration.ToTable("Client");
+        apointmentPersonConfiguration.HasMany(x => x.Slots);
         var navigation =
-              apointmentPersonConfiguration.Metadata.FindNavigation(nameof(AppointmentPerson.Appointments));
+              apointmentPersonConfiguration.Metadata.FindNavigation(nameof(Domain.Entities.Client.Slots));
 
         //EF access the Appointment collection property through its backing field
         navigation.SetPropertyAccessMode(PropertyAccessMode.Field);

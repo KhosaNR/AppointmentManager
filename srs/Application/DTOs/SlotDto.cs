@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Slot.DTOs
+namespace Application.DTOs
 {
     public class SlotDto
     {

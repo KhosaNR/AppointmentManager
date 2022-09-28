@@ -10,7 +10,7 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Appointment_Persons_AppointmentPersonId",
+                name: "FK_Appointment_Persons_ClientId",
                 table: "Appointment");
 
             migrationBuilder.DropColumn(
@@ -18,37 +18,37 @@ namespace Infrastructure.Migrations
                 table: "Persons");
 
             migrationBuilder.CreateTable(
-                name: "AppointmentPerson",
+                name: "Client",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AppointmentPerson", x => x.Id);
+                    table.PrimaryKey("PK_Client", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AppointmentPerson_Persons_Id",
+                        name: "FK_Client_Persons_Id",
                         column: x => x.Id,
                         principalTable: "Persons",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Appointment_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointment_Client_ClientId",
                 table: "Appointment",
-                column: "AppointmentPersonId",
-                principalTable: "AppointmentPerson",
+                column: "ClientId",
+                principalTable: "Client",
                 principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Appointment_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointment_Client_ClientId",
                 table: "Appointment");
 
             migrationBuilder.DropTable(
-                name: "AppointmentPerson");
+                name: "Client");
 
             migrationBuilder.AddColumn<string>(
                 name: "Discriminator",
@@ -58,9 +58,9 @@ namespace Infrastructure.Migrations
                 defaultValue: "");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Appointment_Persons_AppointmentPersonId",
+                name: "FK_Appointment_Persons_ClientId",
                 table: "Appointment",
-                column: "AppointmentPersonId",
+                column: "ClientId",
                 principalTable: "Persons",
                 principalColumn: "Id");
         }

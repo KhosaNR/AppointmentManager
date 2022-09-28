@@ -10,12 +10,12 @@ namespace Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Appointment_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointment_Client_ClientId",
                 table: "Appointment");
 
             migrationBuilder.DropForeignKey(
-                name: "FK_AppointmentPerson_Persons_Id",
-                table: "AppointmentPerson");
+                name: "FK_Client_Persons_Id",
+                table: "Client");
 
             migrationBuilder.DropTable(
                 name: "Persons");
@@ -29,41 +29,41 @@ namespace Infrastructure.Migrations
                 newName: "Appointments");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Appointment_AppointmentPersonId",
+                name: "IX_Appointment_ClientId",
                 table: "Appointments",
-                newName: "IX_Appointments_AppointmentPersonId");
+                newName: "IX_Appointments_ClientId");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
-                table: "AppointmentPerson",
+                table: "Client",
                 type: "datetime2",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<string>(
                 name: "FirstName",
-                table: "AppointmentPerson",
+                table: "Client",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
-                table: "AppointmentPerson",
+                table: "Client",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
                 name: "PhoneNo",
-                table: "AppointmentPerson",
+                table: "Client",
                 type: "nvarchar(max)",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<DateTime>(
                 name: "UpdatedDate",
-                table: "AppointmentPerson",
+                table: "Client",
                 type: "datetime2",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
@@ -74,17 +74,17 @@ namespace Infrastructure.Migrations
                 column: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Appointments_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointments_Client_ClientId",
                 table: "Appointments",
-                column: "AppointmentPersonId",
-                principalTable: "AppointmentPerson",
+                column: "ClientId",
+                principalTable: "Client",
                 principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Appointments_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointments_Client_ClientId",
                 table: "Appointments");
 
             migrationBuilder.DropPrimaryKey(
@@ -93,32 +93,32 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropColumn(
                 name: "CreatedDate",
-                table: "AppointmentPerson");
+                table: "Client");
 
             migrationBuilder.DropColumn(
                 name: "FirstName",
-                table: "AppointmentPerson");
+                table: "Client");
 
             migrationBuilder.DropColumn(
                 name: "LastName",
-                table: "AppointmentPerson");
+                table: "Client");
 
             migrationBuilder.DropColumn(
                 name: "PhoneNo",
-                table: "AppointmentPerson");
+                table: "Client");
 
             migrationBuilder.DropColumn(
                 name: "UpdatedDate",
-                table: "AppointmentPerson");
+                table: "Client");
 
             migrationBuilder.RenameTable(
                 name: "Appointments",
                 newName: "Appointment");
 
             migrationBuilder.RenameIndex(
-                name: "IX_Appointments_AppointmentPersonId",
+                name: "IX_Appointments_ClientId",
                 table: "Appointment",
-                newName: "IX_Appointment_AppointmentPersonId");
+                newName: "IX_Appointment_ClientId");
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_Appointment",
@@ -142,15 +142,15 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Appointment_AppointmentPerson_AppointmentPersonId",
+                name: "FK_Appointment_Client_ClientId",
                 table: "Appointment",
-                column: "AppointmentPersonId",
-                principalTable: "AppointmentPerson",
+                column: "ClientId",
+                principalTable: "Client",
                 principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_AppointmentPerson_Persons_Id",
-                table: "AppointmentPerson",
+                name: "FK_Client_Persons_Id",
+                table: "Client",
                 column: "Id",
                 principalTable: "Persons",
                 principalColumn: "Id");

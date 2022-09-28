@@ -15,15 +15,15 @@ namespace Infrastructure.Base
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         { }
 
-        public DbSet<AppointmentPerson> AppointmentPersons { get; set; }
-        public DbSet<Appointment> Appointments { get; set; }
+        public DbSet<Domain.Entities.Client> Clients { get; set; }
+        public DbSet<Slot> Slots { get; set; }
         //public DbSet<User> Persons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // ...
-            modelBuilder.ApplyConfiguration(new AppointmentTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AppointmentPersonTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SlotTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new ClientTypeConfiguration());
             // Other entities' configuration ...
         }
 

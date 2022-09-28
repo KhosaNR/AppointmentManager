@@ -1,0 +1,12 @@
+﻿<h6>Your appoints</h6>
+<h6>Hi @AppointmentCient.FirstName, these are your appointments</h6>
+
+@code {
+
+    private ClientDto AppointmentCient { get; set; }
+
+    [Parameter]
+    public Guid ClientGuid { get; set; }
+
+
+}

@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Appointment : BaseEntity
+    public class Slot : BaseEntity
     {
-        //public string AppointmentCode { get; set; }
         public DateTime? AppointmentDate { get; set; }
         public Guid Person_Id { get; set; }
-        public  readonly TimeSpan AppointmentDuration = TimeSpan.FromMinutes(30);
-
         public AppointmentStatus Status { get; set; }
         public String CancellationReason { get; set; }
 

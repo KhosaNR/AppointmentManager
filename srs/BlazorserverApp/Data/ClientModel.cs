@@ -1,6 +1,6 @@
 ﻿namespace BlazorserverApp.Data
 {
-    public class AppointmentClientModel
+    public class ClientModel
     {
         public string FirstNames { get; set; }
         public string LastName { get; set; }

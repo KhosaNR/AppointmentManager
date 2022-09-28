@@ -5,32 +5,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Slot.DTOs;
-using Slot.Services;
+using Application.DTOs;
+using Application.Services;
 using Domain.Services;
 
-namespace Slot.Appointments.Command
+namespace Application.Slot.Commands
 {
-    internal class CreateAppointmentCommand : ICreateAppointmentCommand
+    internal class CreateSlotCommand : ICreateSlotCommand
     {
         //This does not look right.
-        IAppointmentRepository AppointmentRepository;
-        IAppointmentPersonRepository PersonRepository;
-        IAppointmentPersonService PersonService;
+        ISlotRepository SlotRepository;
+        IClientRepository ClientRepository;
+        IClientService ClientService;
 
         IUnitOfWork UnitOfWork;
 
-        public CreateAppointmentCommand(IAppointmentRepository appointmentRepository, IAppointmentPersonRepository personRepository, IUnitOfWork unitOfWork, AppointmentPersonService appointmentPersonService)
+        public CreateSlotCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService)
         {
-            AppointmentRepository = appointmentRepository;
-            PersonRepository = personRepository;
+            SlotRepository = slotRepository;
+            ClientRepository = clientRepository;
             UnitOfWork = unitOfWork;
-            PersonService = appointmentPersonService;
+            ClientService = ClientService;
         }
 
-        public void Execute(SlotDto appointment)
+        public void Execute(SlotDto slot)
         {
-            //PersonService.CreateUser(appointment.FirstName, appointment.LastName, appointment.PhoneNo);
+            //ClientService.CreateUser(appointment.FirstName, appointment.LastName, appointment.PhoneNo);
 
             //SlotDto slotDto = appointment.Slots.FirstOrDefault();
             //if (slotDto != null)

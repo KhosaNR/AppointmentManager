@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Slot.DTOs
+namespace Application.DTOs
 {
-    public class AppointmentPersonDto
+    public class ClientDto
     {
         public string Id { get; set; }
         public string FirstName { get; set; }
