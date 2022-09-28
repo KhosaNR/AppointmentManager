@@ -22,45 +22,6 @@ namespace Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Domain.Entities.Appointment", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime?>("AppointmentDate")
-                        .IsRequired()
-                        .HasColumnType("datetime2")
-                        .HasColumnName("AppointmentDate");
-
-                    b.Property<Guid?>("ClientId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("CancellationReason")
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("CancellationReason");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("Person_Id")
-                        .HasColumnType("uniqueidentifier")
-                        .HasColumnName("Person_Id");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int")
-                        .HasColumnName("Status");
-
-                    b.Property<DateTime>("UpdatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.ToTable("Appointments");
-                });
-
             modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
@@ -90,16 +51,51 @@ namespace Infrastructure.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Appointment", b =>
+            modelBuilder.Entity("Domain.Entities.Slot", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("AppointmentDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2")
+                        .HasColumnName("AppointmentDate");
+
+                    b.Property<string>("CancellationReason")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("CancellationReason");
+
+                    b.Property<Guid?>("ClientId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int")
+                        .HasColumnName("Status");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.ToTable("Slots");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Slot", b =>
                 {
                     b.HasOne("Domain.Entities.Client", null)
-                        .WithMany("Appointments")
+                        .WithMany("Slots")
                         .HasForeignKey("ClientId");
                 });
 
             modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
-                    b.Navigation("Appointments");
+                    b.Navigation("Slots");
                 });
 #pragma warning restore 612, 618
         }

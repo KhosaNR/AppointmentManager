@@ -27,7 +27,6 @@ namespace Application.Services
             {
                 AppointmentDate = appointmentDate,
                 Status = Domain.Enums.AppointmentStatus.Booked,
-                Person_Id = client_Id,
             };
             Client.AddSlot(slot);
             uow.SaveChangesAsync();

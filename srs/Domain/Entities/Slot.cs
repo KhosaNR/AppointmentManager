@@ -12,7 +12,6 @@ namespace Domain.Entities
     public class Slot : BaseEntity
     {
         public DateTime? AppointmentDate { get; set; }
-        public Guid Person_Id { get; set; }
         public AppointmentStatus Status { get; set; }
         public String CancellationReason { get; set; }
 

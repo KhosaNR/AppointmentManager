@@ -24,7 +24,6 @@ namespace Application.Slot.Queries
             return new SlotDto { 
                 CancellationReason = slot.CancellationReason,
                 Id = slot.Id,
-                PersonId = slot.Person_Id,
                 SlotDate = (DateTime)slot.AppointmentDate,
                 Status = slot.Status
             };

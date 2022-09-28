@@ -20,12 +20,12 @@ namespace Application.Slot.Commands
 
         IUnitOfWork UnitOfWork;
 
-        public CreateSlotCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService)
+        public CreateSlotCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, IClientService clientService)
         {
             SlotRepository = slotRepository;
             ClientRepository = clientRepository;
             UnitOfWork = unitOfWork;
-            ClientService = ClientService;
+            ClientService = clientService;
         }
 
         public void Execute(SlotDto slot)

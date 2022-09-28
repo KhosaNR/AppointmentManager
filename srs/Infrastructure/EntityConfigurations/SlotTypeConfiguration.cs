@@ -25,11 +25,11 @@ public class SlotTypeConfiguration : IEntityTypeConfiguration<Slot>
             .HasColumnName("AppointmentDate")
             .IsRequired();
 
-        slotConfiguration
-            .Property<Guid>("Person_Id")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("Person_Id")
-            .IsRequired();
+        //slotConfiguration
+        //    .Property<Guid>("Person_Id")
+        //    .UsePropertyAccessMode(PropertyAccessMode.Field)
+        //    .HasColumnName("Person_Id")
+        //    .IsRequired();
 
         slotConfiguration
             .Property<AppointmentStatus>("Status")
