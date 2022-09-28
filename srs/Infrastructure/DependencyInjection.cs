@@ -16,8 +16,8 @@ namespace Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services)
         {
-            services.AddTransient<IAppointmentPersonRepository, AppointmentPersonRepository>();
-            services.AddTransient<IAppointmentRepository, AppointmentRepository> ();
+            services.AddTransient<IClientRepository, ClientRepository>();
+            services.AddTransient<ISlotRepository, SlotRepository> ();
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddDbContext<ApplicationDbContext>(opt => opt

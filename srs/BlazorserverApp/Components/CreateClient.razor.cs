@@ -1,16 +1,16 @@
 ﻿using Microsoft.AspNetCore.Components;
 using BlazorserverApp.Data;
-using AppointmentPersons.Command;
-using Slot.DTOs;
+using Application.DTOs;
 using Domain.Interfaces.Persistence;
 using Domain.Services;
 using Domain.Entities;
-using Application.Appointments.Queries;
-using Application.AppointmentsPersons.Queries;
+using Application.Slot.Queries;
+using Application.Client.Queries;
+using Application.Client.Commands;
 
 namespace BlazorserverApp.Components
 {
-    public partial class CreateAppointmentClient : ComponentBase
+    public partial class CreateClient : ComponentBase
     {
         // check: https://www.pragimtech.com/blog/blazor/pass-data-from-child-to-parent-component-in-blazor/
 
@@ -24,14 +24,14 @@ namespace BlazorserverApp.Components
         public IUnitOfWork uow { get; set; }
 
         [Inject]
-        public IAppointmentPersonService appointmentPersonService { get; set; }
+        public IClientService ClientService { get; set; }
 
         [Parameter]
         public string AppointmentDateTimeString { get; set; }
 
-        protected AppointmentClientModel appointemntClient = new AppointmentClientModel();
+        protected ClientModel appointemntClient = new ClientModel();
 
-        protected AppointmentPersonDto appointmentPerson { get; set; } = new AppointmentPersonDto();
+        protected ClientDto Client { get; set; } = new ClientDto();
 
         private string HideModal = "";
 
@@ -45,9 +45,9 @@ namespace BlazorserverApp.Components
         {
             SetHideModal();
             SaveAppointment();
-            if (ClientHasPendingAppointment()) {
-                //Ridirect to pending appointment
-            }
+            //if (ClientHasPendingAppointment()) {
+            //    //Redirect to pending appointment
+            //}
             RedirectToThankYouPage();
         }
 
@@ -60,16 +60,16 @@ namespace BlazorserverApp.Components
 
         private bool ClientHasPendingAppointment()
         {
-            AppointmentClientQueries appointmentClientQueries = new(uow);
-            return appointmentClientQueries.PhoneNoHasPendingAppointment(appointmentPerson.PhoneNo);
+            ClientQueries ClientQueries = new(uow);
+            return ClientQueries.PhoneNoHasPendingAppointment(Client.PhoneNo);
         }
 
         private async Task SaveAppointment()
         {
             var temp_AppointmentDate = DateTime.Parse(AppointmentDateTimeString);
-            CreateAppointmentCommand createAppointmentPersonCommand = new(uow, appointmentPersonService);
-            appointmentPerson.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
-            createAppointmentPersonCommand.Execute(appointmentPerson);
+            CreateAppointmentCommand createClientCommand = new(uow, ClientService);
+            Client.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
+            createClientCommand.Execute(Client);
         }
 
         private void SetHideModal()
@@ -82,6 +82,28 @@ namespace BlazorserverApp.Components
             {
                 AppointmentDateTimeString = DateTime.Now.ToString();
             }
+        }
+
+        public Guid Guid = Guid.NewGuid();
+        public string ModalDisplay = "none;";
+        public string ModalClass = "";
+        public bool ShowBackdrop = false;
+
+        public void Open(string selectedTime)
+        {
+            AppointmentDateTimeString = selectedTime;
+            ModalDisplay = "block;";
+            ModalClass = "Show";
+            ShowBackdrop = true;
+            StateHasChanged();
+        }
+
+        public void Close()
+        {
+            ModalDisplay = "none";
+            ModalClass = "";
+            ShowBackdrop = false;
+            StateHasChanged();
         }
 
     }

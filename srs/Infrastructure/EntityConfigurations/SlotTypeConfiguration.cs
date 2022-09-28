@@ -11,33 +11,33 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.EntityConfigurations;
 
-public class AppointmentTypeConfiguration : IEntityTypeConfiguration<Appointment>
+public class SlotTypeConfiguration : IEntityTypeConfiguration<Slot>
 {
-    public void Configure(EntityTypeBuilder<Appointment> appointmentConfiguration)
+    public void Configure(EntityTypeBuilder<Slot> slotConfiguration)
     {
         //appointmentConfiguration.ToTable("Appointment");
 
-        appointmentConfiguration.HasKey(o => o.Id);
+        slotConfiguration.HasKey(o => o.Id);
 
-        appointmentConfiguration
+        slotConfiguration
             .Property<DateTime?>("AppointmentDate")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("AppointmentDate")
             .IsRequired();
 
-        appointmentConfiguration
+        slotConfiguration
             .Property<Guid>("Person_Id")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Person_Id")
             .IsRequired();
 
-        appointmentConfiguration
+        slotConfiguration
             .Property<AppointmentStatus>("Status")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Status")
             .IsRequired();
 
-        appointmentConfiguration
+        slotConfiguration
             .Property<string>("CancellationReason")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("CancellationReason")

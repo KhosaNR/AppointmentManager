@@ -1,0 +1,122 @@
+﻿<!-- Trigger the modal with a button -->
+@*@page "/CreateClient"*@
+@using System.Diagnostics
+@namespace BlazorserverApp.Components
+<!-- Modal -->
+<div class="modal @ModalClass" tabindex="-1" role="dialog" style="display:@ModalDisplay">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><i class="fa-regular fa-calendar-plus button-icons"> </i>Book Appointment</h4>
+            </div>
+            <div class="modal-body">
+                <form method="post" @onsubmit="SubmitAppointmentForm_Click">
+                    <div class="form-group row">
+                        <label for="clientLastName" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Last Name
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" @bind="Client.LastName" class="form-control" id="clientLastName" placeholder="Enter last name" required>
+                        </div>
+                    </div>
+                    <p />
+                    <div class="form-group row">
+                        <label for="clientFirstName" class="col-sm-4 col-form-label text-start fw-bolder">
+                            First Names
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="text" @bind="Client.FirstName" class="form-control" id="clientFirstName" placeholder="Enter first names" required>
+                        </div>
+                    </div>
+                    <p />
+                    <div class="form-group row">
+                        <label for="clientPhoneNo" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Cellphone number
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="number" @bind="Client.PhoneNo" class="form-control" id="clientPhoneNo" placeholder="0812345678" required>
+                        </div>
+                    </div>
+                    <p />
+                    <div class="form-group row">
+                        <label for="staticEmail" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Email address
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="email" @bind="appointemntClient.EmailAddress" class="form-control" id="staticEmail" placeholder="email@example.com">
+                        </div>
+                    </div>
+                    <p />
+                    <div class="form-group row">
+                        <label for="paymentMethod" @bind="appointemntClient.PaymentMethod" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Payment method
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group mb-3" id="paymentMethod">
+                                <select class="form-select" id="paymentMethodOptions">
+                                    <option selected>Choose...</option>
+                                    <option value="1">Cash</option>
+                                    <option value="2">Medical aid</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="medicalAidPlan" @bind="appointemntClient.MedicalAidPlan" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Medical Aid Plan
+                        </label>
+                        <div class="col-sm-8">
+                            <div class="input-group mb-3" id="medicalAidPlan">
+                                <select class="form-select" id="medicalAidPlanOptions">
+                                    <option selected>Choose...</option>
+                                    <option value="1">Plan 1</option>
+                                    <option value="2">Plan 2</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="AppointmentDate" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Date
+                        </label>
+                        <div class="col-sm-8">
+                            <input type="date" disabled
+                                   class="form-control"
+                                   id="AppointmentDate"
+                                   format-value="dd-MM-yyyy"
+                                   value=@DateTime.Parse(AppointmentDateTimeString).ToString("yyyy-MM-dd")>
+                        </div>
+                    </div>
+                    <p />
+                    <div class="form-group row">
+                        <label for="AppointmentTime" class="col-sm-4 col-form-label text-start fw-bolder">
+                            Time
+                        </label>
+                        <div class="col-sm-8">
+                            <input disabled type="time" class="form-control" id="AppointmentTime" format-value="HH:MM"
+                                   value=@DateTime.Parse(AppointmentDateTimeString).TimeOfDay.ToString()>
+                        </div>
+                    </div>
+                    <p />
+                    <p />
+                    <div class="modal-footer">
+                        <button type="submit"
+                                class="btn btn-primary"
+                                data-bs-dismiss="@HideModal">
+                            @*asp-route-AppointmentDateTimeString=@AppointmentDateTimeString>*@
+                            Continue
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @onclick="Close">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@if (ShowBackdrop)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+

@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domain.Interfaces.Persistence
 {
-    public interface IAppointmentRepository: IGenericRepository<Appointment>
+    public interface ISlotRepository: IGenericRepository<Slot>
     {
         bool AppointmentExists(DateTime appointmentDate);
-        Appointment GetByDateTime(DateTime appointmentDate);
+        Slot GetByDateTime(DateTime appointmentDate);
         Task<IEnumerable<DateTime>> GetForWeek(DateTime startDate);
     }
 }

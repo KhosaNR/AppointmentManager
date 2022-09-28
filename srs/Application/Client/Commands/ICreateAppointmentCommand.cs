@@ -1,15 +1,15 @@
 ﻿using Domain.Entities;
-using Slot.DTOs;
+using Application.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Slot.Appointments.Command
+namespace Application.Client.Commands
 {
-    internal interface ICreateAppointmentCommand
+    public interface ICreateClientCommand
     {
-        void Execute(SlotDto appointment);
+        void Execute(ClientDto Client);
     }
 }

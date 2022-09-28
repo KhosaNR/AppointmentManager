@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Services
 {
-    public interface IAppointmentPersonService: IUserService
+    public interface IClientService: IUserService
     {
-        void CreateAppointment(Guid appoinmentPerson_Id, DateTime appointmentTime);
+        void BookAppointment(Guid client_Id, DateTime appointmentDate);
     }
 }

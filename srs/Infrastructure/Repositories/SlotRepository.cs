@@ -11,25 +11,25 @@ using Domain.Enums;
 
 namespace Infrastructure.Repositories
 {
-    public class AppointmentRepository : GenericRepository<Appointment>, IAppointmentRepository
+    public class SlotRepository : GenericRepository<Slot>, ISlotRepository
     {
-        public AppointmentRepository(ApplicationDbContext context) : base(context)
+        public SlotRepository(ApplicationDbContext context) : base(context)
         {
         }
 
-        public Appointment GetByDateTime(DateTime appointmentDate)
+        public Slot GetByDateTime(DateTime appointmentDate)
         {
-            return _context.Appointments.Where(x => DateTime.Compare((DateTime)x.AppointmentDate, appointmentDate)==0).FirstOrDefault();
+            return _context.Slots.Where(x => DateTime.Compare((DateTime)x.AppointmentDate, appointmentDate)==0).FirstOrDefault();
         }
 
         public bool AppointmentExists(DateTime appointmentDate)
         {
-            return  _context.Appointments.Any(x => DateTime.Compare((DateTime)x.AppointmentDate, appointmentDate) == 0);
+            return  _context.Slots.Any(x => DateTime.Compare((DateTime)x.AppointmentDate, appointmentDate) == 0);
         }
 
         public async Task<IEnumerable<DateTime>> GetForWeek(DateTime startDate)
         {
-            return await _context.Appointments
+            return await _context.Slots
                 .Where(
                 x =>
                 x.Status < AppointmentStatus.Cancelled &&

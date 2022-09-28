@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class AppointmentPerson : User
+    public class Client : User
     {
-        private List<Appointment> _Appointments = new List<Appointment>();
-        public void AddAppointment(Appointment appointment)
+        private List<Slot> _Slots = new List<Slot>();
+        public void AddSlot(Slot slot)
         {
-            _Appointments.Add(appointment);
+            _Slots.Add(slot);
         }
-        public ICollection<Appointment> Appointments{ get{return _Appointments;} }
-        //public AppointmentPerson(string firstName, string LastName, string phoneNo, IEnumerable<Appointment> appointments): base(firstName, LastName, phoneNo)
+        public ICollection<Slot> Slots{ get{return _Slots;} }
+        //public Client(string firstName, string LastName, string phoneNo, IEnumerable<Appointment> appointments): base(firstName, LastName, phoneNo)
         //{
         //    Appointments = appointments;
         //}
@@ -24,7 +24,7 @@ namespace Domain.Entities
         //    var newAppointment = new Appointment
         //    {
         //        AppointmentDate = DateTime.Now,
-        //        AppointmentPerson_Id = this.ID,
+        //        Client_Id = this.ID,
         //        Status = Enums.AppointmentStatus.Booked
         //    };
         //    //GetAppAppointments and validate time.

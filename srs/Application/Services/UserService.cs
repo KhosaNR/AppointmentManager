@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Slot.Services
+namespace Application.Services
 {
     internal class UserService: IUserService
     {
@@ -18,7 +18,7 @@ namespace Slot.Services
             this.uow = unitOfWork;
         }
 
-        public void CreateUser(string firstName, string lastName, string phoneNo, DateTime appointmentTime)
+        public void CreateUser(string firstName, string lastName, string phoneNo, DateTime appointmentDate)
         {
         }
 

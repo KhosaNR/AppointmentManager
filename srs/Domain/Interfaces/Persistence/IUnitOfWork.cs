@@ -7,8 +7,8 @@ namespace Domain.Interfaces.Persistence
 {
     public interface IUnitOfWork : IDisposable
     {
-        IAppointmentPersonRepository AppointmentPeople { get; }
-        IAppointmentRepository Appointments { get; }
+        IClientRepository Clients { get; }
+        ISlotRepository Slots { get; }
         Task<int> SaveChangesAsync();
     }
 }

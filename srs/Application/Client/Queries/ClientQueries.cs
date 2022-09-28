@@ -1,4 +1,4 @@
-﻿using Slot.DTOs;
+﻿using Application.DTOs;
 using Domain.Interfaces.Persistence;
 using System;
 using System.Collections.Generic;
@@ -7,21 +7,21 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Enums;
 
-namespace Application.AppointmentsPersons.Queries
+namespace Application.Client.Queries
 {
-    public class AppointmentClientQueries : IAppointmentClientQueries
+    public class ClientQueries : IClientQueries
     {
         readonly IUnitOfWork uow;
 
-        public AppointmentClientQueries(IUnitOfWork uow)
+        public ClientQueries(IUnitOfWork uow)
         {
             this.uow = uow;
         }
 
         public bool PhoneNoHasPendingAppointment(string phoneNo)
         {
-            return uow.AppointmentPeople.GetByPhoneNo(phoneNo).Result
-                .Any(x=>x.Appointments.Any(a=>a.Status<AppointmentStatus.Done));         
+            return uow.Clients.GetByPhoneNo(phoneNo).Result
+                .Any(x=>x.Slots.Any(a=>a.Status<AppointmentStatus.Done));         
         }
     }
 }

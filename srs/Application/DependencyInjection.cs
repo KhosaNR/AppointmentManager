@@ -6,9 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using AppointmentPersons.Command;
+using Application.Client.Commands;
 using Domain.Services;
-using Slot.Services;
+using Application.Services;
+using Application.Slot.Commands;
 
 namespace Application
 {
@@ -16,8 +17,8 @@ namespace Application
     {
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
-            services.AddTransient<ICreateAppointmentPersonCommand, CreateAppointmentCommand>();
-            services.AddTransient<IAppointmentPersonService, AppointmentPersonService> ();
+            services.AddTransient<ICreateSlotCommand, CreateSlotCommand>();
+            services.AddTransient<IClientService, ClientService> ();
             services.AddTransient<IUserService, UserService>();
             return services;
         }

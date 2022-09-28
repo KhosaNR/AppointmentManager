@@ -35,7 +35,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("AppointmentDate");
 
-                    b.Property<Guid?>("AppointmentPersonId")
+                    b.Property<Guid?>("ClientId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CancellationReason")
@@ -58,12 +58,12 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppointmentPersonId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("Appointments");
                 });
 
-            modelBuilder.Entity("Domain.Entities.AppointmentPerson", b =>
+            modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,17 +89,17 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppointmentPersons");
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Domain.Entities.Appointment", b =>
                 {
-                    b.HasOne("Domain.Entities.AppointmentPerson", null)
+                    b.HasOne("Domain.Entities.Client", null)
                         .WithMany("Appointments")
-                        .HasForeignKey("AppointmentPersonId");
+                        .HasForeignKey("ClientId");
                 });
 
-            modelBuilder.Entity("Domain.Entities.AppointmentPerson", b =>
+            modelBuilder.Entity("Domain.Entities.Client", b =>
                 {
                     b.Navigation("Appointments");
                 });

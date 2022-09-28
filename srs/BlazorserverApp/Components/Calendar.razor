@@ -1,7 +1,7 @@
 ﻿@page "/Calendar"
 @namespace BlazorserverApp.Components
 @using Domain.Interfaces.Persistence;
-@using Application.Appointments.Queries;
+@using Application.Slot.Queries;
 @inject IJSRuntime _jsRuntime
 
 <h4 class="header">Schedule your appointment</h4>
@@ -29,25 +29,21 @@
         <button type="button" class="btn btn-secondary" @onclick="BackToPreviousPage">
             Back
         </button>
-        <button disabled=@ContinueButtonDisabled data-bs-dismiss="modal" class="btn btn-primary"
+@*        <button disabled=@ContinueButtonDisabled data-bs-dismiss="modal" class="btn btn-primary"
                 colspan="1"
                 data-bs-toggle="modal" data-bs-target="#CreateAppointment_Modal"
                 data-backdrop="false">
+            Continue
+        </button>*@
+        <button disabled=@ContinueButtonDisabled class="btn btn-primary"
+                colspan="1"
+                @onclick="()=> Modal.Open(SelectedDate.ToString())">
             Continue
         </button>
     </div>
 </div>
 <br />
-
-<div id="CreateAppointment_Modal" class="modal fade" role="dialog" data-backdrop="false">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <CreateAppointmentClient AppointmentDateTimeString=@SelectedDate.ToString() />
-            @*<component type="typeof(AppointmentClient)" render-mode="Static" />*@
-        </div>
-    </div>
-</div>
+<CreateClient @ref="Modal"></CreateClient>
 
 @if (BookedAppointmentTimes is null)
 {
@@ -103,7 +99,7 @@ else
                             SlotCellStyle = slotIsTaken ? @"booked-slot" : @"free-slot";
                             SlotCellStyle = ThisIsTheSelectedSlot(currentSlot) ? @"selected-slot" : SlotCellStyle;
                             var slotDateTime = LeastVisibleDate.Date.AddDays(j).Add(i);
-                            <td class="@SlotCellStyle rounded cells" @onclick="(x=>SelectedSlot_Click(slotDateTime, slotIsTaken))"></td>
+                            <td class="@SlotCellStyle rounded cells" @onclick="(x=>SelectedSlot_Click(slotDateTime, slotIsTaken))" @ondblclick="Slot_DoubleClick"></td>
                         }
                     </tr>
 
@@ -121,7 +117,9 @@ else
     public IUnitOfWork uow { get; set; }
 
     //[Inject]
-    private AppointmentQueries appointmentQueries { get; set; }
+    private SlotQueries appointmentQueries { get; set; }
+
+    private CreateClient Modal { get; set; }
 
     public DateTime SelectedDate { get; set; }
     private bool ValidDateSelected = false;
@@ -201,6 +199,13 @@ else
         NavigationManager.NavigateTo("/");
 
         //await OnCreateClient.InvokeAsync(appointemntClient);
+    }
+
+    private void Slot_DoubleClick(){
+        if (ValidDateSelected)
+        {
+            Modal.Open(SelectedDate.ToString());
+        }
     }
 
     private void SelectedSlot_Click(DateTime selectedDate, bool slotIsTaken)
