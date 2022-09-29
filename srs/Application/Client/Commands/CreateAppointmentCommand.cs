@@ -9,8 +9,9 @@ using Application.DTOs;
 using Application.Services;
 using Domain.Services;
 using AutoMapper;
+using Domain.General.Result;
 
-namespace Application.Client.Commands
+namespace Application.Clients.Commands
 {
     public class CreateAppointmentCommand : ICreateClientCommand
     {
@@ -38,10 +39,21 @@ namespace Application.Client.Commands
             Mapper = mapper;
         }
 
-        public async Task Execute(ClientDto client)
+        public async Task<Results> Execute(ClientDto clientDto)
         {
-            var person = Mapper.Map<Domain.Entities.Client>(client);
-            await ClientService.BookOneAppointment(person);
+            var results = new Results();
+            try
+            {
+                var client = Mapper.Map<Client>(clientDto);
+                await ClientService.BookOneAppointmentAsync(client, results);
+                return results;
+            }
+            catch(Exception ex)
+            {
+                results.Add(new UnexpectedResult("Something went wrong while trying to create this appointment."));
+                return results;
+                //Log
+            }
         }
     }
 }

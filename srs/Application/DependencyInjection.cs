@@ -6,10 +6,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Client.Commands;
+using Application.Clients.Commands;
 using Domain.Services;
 using Application.Services;
-using Application.Slot.Commands;
+using Application.Slots.Commands;
 using Application.DTOs.Mapping;
 
 namespace Application

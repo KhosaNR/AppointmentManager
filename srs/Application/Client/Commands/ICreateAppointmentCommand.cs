@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.General.Result;
 
-namespace Application.Client.Commands
+namespace Application.Clients.Commands
 {
     public interface ICreateClientCommand
     {
-        Task Execute(ClientDto Client);
+        Task<Results> Execute(ClientDto clientDto);
     }
 }

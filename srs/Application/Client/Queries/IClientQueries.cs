@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Client.Queries
+namespace Application.Clients.Queries
 {
     public interface IClientQueries
     {

@@ -4,9 +4,9 @@ using Application.DTOs;
 using Domain.Interfaces.Persistence;
 using Domain.Services;
 using Domain.Entities;
-using Application.Slot.Queries;
-using Application.Client.Queries;
-using Application.Client.Commands;
+using Application.Slots.Queries;
+using Application.Clients.Queries;
+using Application.Clients.Commands;
 using AutoMapper;
 
 namespace BlazorserverApp.Components
@@ -48,11 +48,16 @@ namespace BlazorserverApp.Components
         protected async Task SubmitAppointmentForm_Click()
         {
             SetHideModal();
-            await SaveAppointment();
-            //if (ClientHasPendingAppointment()) {
-            //    //Redirect to pending appointment
-            //}
-            RedirectToThankYouPage();
+            var savingResult = await SaveAppointment();
+            if (!savingResult.IsOk())
+            {
+                Close();
+                //Further check if the error is client already exist and then redirect to the user details page
+            }
+            else
+            {
+                RedirectToThankYouPage();
+            }
         }
 
         private void RedirectToThankYouPage()
@@ -68,12 +73,12 @@ namespace BlazorserverApp.Components
             return ClientQueries.PhoneNoHasPendingAppointment(Client.PhoneNo);
         }
 
-        private async Task SaveAppointment()
+        private async Task<Domain.General.Result.Results> SaveAppointment()
         {
             var temp_AppointmentDate = DateTime.Parse(AppointmentDateTimeString);
             CreateAppointmentCommand createClientCommand = new(uow, ClientService, Mapper);
             Client.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
-            await createClientCommand.Execute(Client);
+            return await createClientCommand.Execute(Client);
         }
 
         private void SetHideModal()

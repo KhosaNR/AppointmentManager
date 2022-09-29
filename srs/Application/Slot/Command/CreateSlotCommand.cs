@@ -9,7 +9,7 @@ using Application.DTOs;
 using Application.Services;
 using Domain.Services;
 
-namespace Application.Slot.Commands
+namespace Application.Slots.Commands
 {
     internal class CreateSlotCommand : ICreateSlotCommand
     {

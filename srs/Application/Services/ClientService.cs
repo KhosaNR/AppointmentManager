@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Enums;
+using Domain.General.Result;
 
 namespace Application.Services
 {
@@ -19,50 +20,41 @@ namespace Application.Services
             this.uow = unitOfWork;
         }
 
-        public async Task BookOneAppointment(Domain.Entities.Client client)
+        public async Task BookOneAppointmentAsync(Client client, Results results)
         {
             if (client.Slots.Count != 1)
             {
-                throw new Exception($"When creating an appointment, expected 1 slot, received {client.Slots.Count} slots.");
+                results.Add(new InvalidResult($"When creating an appointment, expected 1 slot, received {client.Slots.Count} slots."));
+                return;
             }
             var clients = await uow.Clients.GetByPhoneNo(client.PhoneNo);
             var existingClient = clients.FirstOrDefault();
             if(existingClient == null)
             {
                 await CreateClient(client);
-                return;
+                new SuccessResult<Client>(client);
             }
 
             var newSlot = client.Slots.First();
-            await AddNewAppointmentToExistingClient(existingClient, newSlot);
-        }
-
-        public async Task AddNewAppointmentToExistingClient(Domain.Entities.Client existingClient, Domain.Entities.Slot newSlot)
-        {
-            if (ClientHasPendingAppointment(existingClient))
-            {
-                //Use Result
-                throw new Exception($"Failed! Cannot add new appointment to client {existingClient.Id} due to a pending appointment");
-            }
-
-            newSlot.Status = AppointmentStatus.Booked;
-            existingClient.AddSlot(newSlot);
+            var bookingResult = existingClient.BookNewAppointment(newSlot,false);
+            results.Add(bookingResult);
+            if (!results.IsOk()) return;
             await UpdateClient(existingClient);
         }
 
-        public async Task UpdateClient(Domain.Entities.Client client)
+        public async Task UpdateClient(Client client)
         {
             uow.Clients.Update(client);
             await uow.SaveChangesAsync();
         }
 
-        public async Task CreateClient(Domain.Entities.Client client)
+        public async Task CreateClient(Client client)
         {
             await uow.Clients.AddAsync(client);
             await uow.SaveChangesAsync();
         }
 
-        public bool ClientHasPendingAppointment(Domain.Entities.Client client)
+        public bool ClientHasPendingAppointment(Client client)
         {
             return client.Slots.Any(x=>x.Status<AppointmentStatus.Done);
         }
@@ -83,7 +75,7 @@ namespace Application.Services
 
         public void CreateUser(string firstName, string lastName, string PhoneNo, DateTime appointmentDate)
         {
-            var Client = new Domain.Entities.Client
+            var Client = new Client
             {
                 FirstName = firstName,
                 LastName = lastName,

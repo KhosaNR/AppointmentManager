@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Domain.Enums;
 
-namespace Application.Client.Queries
+namespace Application.Clients.Queries
 {
     public class ClientQueries : IClientQueries
     {

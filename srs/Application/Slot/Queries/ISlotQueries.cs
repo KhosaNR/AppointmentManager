@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Slot.Queries
+namespace Application.Slots.Queries
 {
     public interface ISlotQueries
     {
