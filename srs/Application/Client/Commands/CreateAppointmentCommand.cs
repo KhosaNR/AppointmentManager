@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Application.DTOs;
 using Application.Services;
 using Domain.Services;
+using AutoMapper;
 
 namespace Application.Client.Commands
 {
@@ -19,37 +20,28 @@ namespace Application.Client.Commands
         IClientService ClientService;
 
         IUnitOfWork UnitOfWork;
+        IMapper Mapper;
 
-        public CreateAppointmentCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService)
+        public CreateAppointmentCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService, IMapper mapper)
         {
             SlotRepository = slotRepository;
             ClientRepository = clientRepository;
             UnitOfWork = unitOfWork;
             this.ClientService = ClientService;
+            Mapper = mapper;
         }
 
-        public CreateAppointmentCommand(IUnitOfWork unitOfWork, IClientService ClientService)
+        public CreateAppointmentCommand(IUnitOfWork unitOfWork, IClientService ClientService,IMapper mapper)
         {
             UnitOfWork = unitOfWork;
             this.ClientService = ClientService;
+            Mapper = mapper;
         }
 
-        public void Execute(ClientDto Client)
+        public async Task Execute(ClientDto client)
         {
-            Domain.Entities.Client person = new()
-            {
-                FirstName = Client.FirstName,
-                LastName = Client.LastName,
-                PhoneNo = Client.PhoneNo,
-            };
-
-            SlotDto slotDto = Client.Slots.FirstOrDefault();
-            if (slotDto is null)
-            {
-                //maybe a throw a message saying you cannot add an appointment without a slot?
-                return;
-            }
-            ClientService.CreateUser(Client.FirstName, Client.LastName, Client.PhoneNo, slotDto.SlotDate);
+            var person = Mapper.Map<Domain.Entities.Client>(client);
+            await ClientService.BookOneAppointment(person);
         }
     }
 }

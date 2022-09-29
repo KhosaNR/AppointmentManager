@@ -10,6 +10,7 @@ using Application.Client.Commands;
 using Domain.Services;
 using Application.Services;
 using Application.Slot.Commands;
+using Application.DTOs.Mapping;
 
 namespace Application
 {
@@ -20,6 +21,8 @@ namespace Application
             services.AddTransient<ICreateSlotCommand, CreateSlotCommand>();
             services.AddTransient<IClientService, ClientService> ();
             services.AddTransient<IUserService, UserService>();
+            services.AddAutoMapper(typeof(ClientProfile));
+            services.AddAutoMapper(typeof(SlotProfile));
             return services;
         }
     }

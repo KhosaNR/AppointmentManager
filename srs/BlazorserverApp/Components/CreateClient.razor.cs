@@ -7,6 +7,7 @@ using Domain.Entities;
 using Application.Slot.Queries;
 using Application.Client.Queries;
 using Application.Client.Commands;
+using AutoMapper;
 
 namespace BlazorserverApp.Components
 {
@@ -26,6 +27,9 @@ namespace BlazorserverApp.Components
         [Inject]
         public IClientService ClientService { get; set; }
 
+        [Inject]
+        public IMapper Mapper { get; set; }
+
         [Parameter]
         public string AppointmentDateTimeString { get; set; }
 
@@ -44,7 +48,7 @@ namespace BlazorserverApp.Components
         protected async Task SubmitAppointmentForm_Click()
         {
             SetHideModal();
-            SaveAppointment();
+            await SaveAppointment();
             //if (ClientHasPendingAppointment()) {
             //    //Redirect to pending appointment
             //}
@@ -67,9 +71,9 @@ namespace BlazorserverApp.Components
         private async Task SaveAppointment()
         {
             var temp_AppointmentDate = DateTime.Parse(AppointmentDateTimeString);
-            CreateAppointmentCommand createClientCommand = new(uow, ClientService);
+            CreateAppointmentCommand createClientCommand = new(uow, ClientService, Mapper);
             Client.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
-            createClientCommand.Execute(Client);
+            await createClientCommand.Execute(Client);
         }
 
         private void SetHideModal()

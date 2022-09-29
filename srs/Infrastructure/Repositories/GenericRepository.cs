@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -43,6 +44,17 @@ namespace Infrastructure.Repositories
         public void Update(T entity)
         {
             _context.Set<T>().Update(entity);
+        }
+
+        public async Task<IEnumerable<T>> LoadAllWithRelatedAsync<TEntity>(Expression<Func<T, bool>> predicate,params Expression<Func<T, object>>[] expressionList) 
+        {
+            var query = _context.Set<T>().Where(predicate).AsQueryable();
+            foreach (var expression in expressionList)
+            {
+                query = query.Include(expression);
+            }
+
+            return await query.ToListAsync();
         }
     }
 }

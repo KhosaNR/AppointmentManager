@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.Utilities;
 
 namespace Infrastructure.Repositories
 {
@@ -22,7 +23,9 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Domain.Entities.Client>> GetByPhoneNo(string phoneNo)
         {
-            return await _context.Clients.Where(x => x.PhoneNo == phoneNo).ToListAsync();
+            return await LoadAllWithRelatedAsync<Client>(c=>c.PhoneNo==phoneNo,p => p.Slots);
+            //return await _context.Clients.Where(x => x.PhoneNo == phoneNo)
+            //    .ToListAsync();
         }
     }
 

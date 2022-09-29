@@ -9,7 +9,6 @@ namespace Domain.Services
 {
     public interface IUserService
     {
-        //void CreateUser(User person);
         void CreateUser(string firstName, string lastName, string PhoneNo, DateTime appointmentTime);
     }
 }

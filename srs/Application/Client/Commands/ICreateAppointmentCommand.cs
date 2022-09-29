@@ -10,6 +10,6 @@ namespace Application.Client.Commands
 {
     public interface ICreateClientCommand
     {
-        void Execute(ClientDto Client);
+        Task Execute(ClientDto Client);
     }
 }
