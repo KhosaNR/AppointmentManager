@@ -33,6 +33,7 @@ namespace Application.Services
             {
                 await CreateClient(client);
                 new SuccessResult<Client>(client);
+                return;
             }
 
             var newSlot = client.Slots.First();

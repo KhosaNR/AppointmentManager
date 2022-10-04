@@ -1,4 +1,5 @@
-﻿using Domain.Interfaces.Persistence;
+﻿using Domain.Entities;
+using Domain.Interfaces.Persistence;
 
 namespace Domain.Interfaces.Persistence
 {
@@ -6,6 +7,7 @@ namespace Domain.Interfaces.Persistence
     {
         Task<IEnumerable<Domain.Entities.Client>> GetByLastName(string LastName);
         Task<IEnumerable<Domain.Entities.Client>> GetByPhoneNo(string phoneNo);
+        Task<IEnumerable<Client>> GetAllWithRelatedAsync();
         //void SaveChanges();
     }
 }

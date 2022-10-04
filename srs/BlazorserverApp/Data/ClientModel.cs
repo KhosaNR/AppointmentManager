@@ -2,12 +2,14 @@
 {
     public class ClientModel
     {
-        public string FirstNames { get; set; }
-        public string LastName { get; set; }
-        public string? EmailAddress { get; set; }
-        public string PhoneNumber { get; set; }
-        public string? PaymentMethod { get; set; }
-        public DateTime AppointmentTime { get;set; }
+        public string Id { get; set; } = ""; 
+        public string FirstName { get; set; } = "";
+        public string LastName { get; set; } = "";
+        public string EmailAddress { get; set; } = "";
+        public string PhoneNo { get; set; } = "";
+        public string PaymentMethod { get; set; } = "";
+        //public DateTime AppointmentTime { get;set; }
+        public List<SlotModel> Slots { get; set; } = new();
 
     }
 }

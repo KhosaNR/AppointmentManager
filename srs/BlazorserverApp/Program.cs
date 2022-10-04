@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Infrastructure;
 using Application;
+using BlazorserverApp.Data.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 builder.WebHost.UseStaticWebAssets();
 builder.Services.AddInfrastructure();
 builder.Services.AddApplicationService();
+builder.Services.AddDtoToModelMapping();
 
 var app = builder.Build();
 

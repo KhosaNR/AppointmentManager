@@ -10,5 +10,6 @@ namespace Application.Clients.Queries
     public interface IClientQueries
     {
         bool PhoneNoHasPendingAppointment(string phoneNo);
+        Task<IEnumerable<ClientDto>> GetAll();
     }
 }

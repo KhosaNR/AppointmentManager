@@ -67,9 +67,10 @@ namespace BlazorserverApp.Components
             NavigationManager.NavigateTo($"/ThankYou/{AppointmentDateTimeString}", true);
         }
 
-        private bool ClientHasPendingAppointment()
+        private async Task<bool> ClientHasPendingAppointment()
         {
-            ClientQueries ClientQueries = new(uow);
+            ClientQueries ClientQueries = new(uow,Mapper);
+            var test = await ClientQueries.GetAll();
             return ClientQueries.PhoneNoHasPendingAppointment(Client.PhoneNo);
         }
 

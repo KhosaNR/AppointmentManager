@@ -1,0 +1,108 @@
+﻿@page "/ClientList"
+@using BlazorserverApp.Pages
+<p/>
+<h3>Appointment log</h3>
+<table class="table table-striped tablestyle" cellpadding="5" cellspacing="1">
+    <tr class="headers">
+        <td class="margin-cells"></td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("LastName"))">
+            Last Name 
+            <i class="@Sorting.Columns["LastName"]" />
+        </td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("FirstName"))">
+            First Names
+            <i class="@Sorting.Columns["FirstName"]" />
+        </td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("Email"))">
+            Email
+            <i class="@Sorting.Columns["Email"]" />
+        </td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("Phone"))">
+            Phone
+             <i class="@Sorting.Columns["Phone"]" />
+        </td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("AppointmentTime"))">
+            Time
+            <i class="@Sorting.Columns["AppointmentTime"]" />
+        </td>
+        <td class="filter-text-size" @onclick="@(async () => await ClientSorting("AppointmentStatus"))">
+            Status
+            <i class="@Sorting.Columns["AppointmentStatus"]" />
+        </td>
+    </tr>
+
+    <tr class="filter-header">
+        <td class="margin-cells">Filter : </td>
+        <td class="filter-text-size">
+            <input @bind-value="@Filter.LastName" @bind-value:event="onchange"  class="input-group-text input-ctrls normal-ctrl" @oninput="@(async e => await OnLastNameChangedAsync(e))" />
+        </td>
+        <td class="filter-text-size">
+            <input @bind-value="@Filter.FirstName" @bind-value:event="TestMethodAsync" class="input-group-text input-ctrls normal-ctrl" @oninput="@(async e => await OnFirstNameChangedAsync(e))" />
+        </td>
+        <td class="filter-text-size">
+            <input @bind="@Filter.Email" class="input-group-text input-ctrls normal-ctrl" @oninput="@(async e => await OnEmailChangedAsync(e))" />
+        </td>
+        <td class="filter-text-size">
+            <input  @bind="@Filter.PhoneNo" class="input-group-text input-ctrls normal-ctrl" @oninput="@(async e => await OnPhoneChangedAsync(e))" />
+        </td>
+        <td class="filter-text-size">
+            <input type="date" class="input-group-text input-ctrls long-ctrl" @oninput="@(async e => await OnAppointmentTimeChangedAsync(e))" />
+        </td>
+        <td class="filter-text-size">
+            <select class="form-select input-ctrls" @bind="@Filter.Status"  @oninput="@(async e => await OnStatusSelectedChangedAsync(e))" id="appointmentstatus">
+                    <option selected>All</option>
+                    @foreach (var name in StatusList){
+                    <option value="@name">@name</option>
+                    }
+                </select>
+            @*</div>*@
+        </td>
+    </tr>
+
+    <tbody>
+        @foreach (var ClientMasters in ClientsMasterSortedAndFiltered)
+        {
+            @foreach (var slot in ClientMasters.Slots)
+            {
+            <tr class="td-text">
+                <td style="border: solid1px#659EC7; padding: 5px;table-layout:fixed;">
+                  <a class="btn" asp-area="" href="/Test"><i class="fa-solid fa-pen-to-square" /></a>
+                </td>
+                    <td class="td-text-left">
+                        @ClientMasters.LastName
+                </td>
+                <td class="td-text-left">
+                        @ClientMasters.FirstName
+                </td>
+                <td class="td-text-left">
+                        @ClientMasters.EmailAddress
+                </td>
+                <td>
+                        @ClientMasters.PhoneNo
+                </td>
+                <td>
+                        @slot.SlotDate
+                </td>
+                <td>
+                        @slot.Status
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

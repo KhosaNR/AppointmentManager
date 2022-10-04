@@ -1,12 +1,39 @@
-﻿<h6>Your appoints</h6>
-<h6>Hi @AppointmentCient.FirstName, these are your appointments</h6>
+﻿@using Domain.Interfaces.Persistence;
+@using Domain.Services;
+@using AutoMapper;
+
+<h6>Details details</h6>
+<br />
+<p>Update details below</p>
 
 @code {
+
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    private IUnitOfWork uow { get; set; }
+
+    [Inject]
+    private IClientService ClientService { get; set; }
+
+    [Inject]
+    private IMapper Mapper { get; set; }
 
     private ClientDto AppointmentCient { get; set; }
 
     [Parameter]
-    public Guid ClientGuid { get; set; }
+    public string ClientId { get; set; }
+
+    [Parameter] 
+    public string SlotId { get; set; }
+
+    public ClientModel ClientModel { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
 
 
 }

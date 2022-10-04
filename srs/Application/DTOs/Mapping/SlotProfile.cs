@@ -13,11 +13,8 @@ namespace Application.DTOs.Mapping
         {
             CreateMap<SlotDto, Domain.Entities.Slot>()
                 .ForMember(dest => dest.AppointmentDate,
-                opt => opt.MapFrom(src => src.SlotDate));
-
-            CreateMap<Domain.Entities.Slot, SlotDto>()
-                .ForMember(dest => dest.SlotDate,
-                opt => opt.MapFrom(src=>src.AppointmentDate));
+                opt => opt.MapFrom(src => src.SlotDate))
+                .ReverseMap();
         }
     }
 }

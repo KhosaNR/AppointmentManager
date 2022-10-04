@@ -12,8 +12,7 @@ namespace Application.DTOs.Mapping
     {
         public ClientProfile()
         {
-            CreateMap<ClientDto, Client>();
-            CreateMap<Client, ClientDto>();
+            CreateMap<Client, ClientDto>().ReverseMap();
         }
     }
 }

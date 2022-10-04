@@ -46,7 +46,7 @@ namespace Infrastructure.Repositories
             _context.Set<T>().Update(entity);
         }
 
-        public async Task<IEnumerable<T>> LoadAllWithRelatedAsync<TEntity>(Expression<Func<T, bool>> predicate,params Expression<Func<T, object>>[] expressionList) 
+        public async Task<IEnumerable<T>> LoadAllWithRelatedAndConditionAsync<TEntity>( Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] expressionList) 
         {
             var query = _context.Set<T>().Where(predicate).AsQueryable();
             foreach (var expression in expressionList)
@@ -54,6 +54,17 @@ namespace Infrastructure.Repositories
                 query = query.Include(expression);
             }
 
+            return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<T>> LoadAllWithRelatedAsync<TEntity>(params Expression<Func<T, object>>[] expressionList)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            foreach (var expression in expressionList)
+            {
+                query = query.Include(expression);
+            }
+            var test = await query.ToListAsync();
             return await query.ToListAsync();
         }
     }

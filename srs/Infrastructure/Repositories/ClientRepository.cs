@@ -23,9 +23,14 @@ namespace Infrastructure.Repositories
 
         public async Task<IEnumerable<Domain.Entities.Client>> GetByPhoneNo(string phoneNo)
         {
-            return await LoadAllWithRelatedAsync<Client>(c=>c.PhoneNo==phoneNo,p => p.Slots);
+            return await LoadAllWithRelatedAndConditionAsync<Client>(c=>c.PhoneNo==phoneNo,p => p.Slots);
             //return await _context.Clients.Where(x => x.PhoneNo == phoneNo)
             //    .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Client>> GetAllWithRelatedAsync()
+        {
+            return await _context.Set<Client>().Include(p => p.Slots).ToListAsync();
         }
     }
 

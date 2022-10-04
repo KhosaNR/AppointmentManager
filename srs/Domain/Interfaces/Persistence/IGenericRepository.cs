@@ -14,6 +14,6 @@ namespace Domain.Interfaces.Persistence
         void  Update(T entity);
         Task DeleteAsync(T entity);
         Task<T> GetById(Guid id);
-        Task<IEnumerable<T>> LoadAllWithRelatedAsync<TEntity>(Expression<Func<T, bool>> predicate,params Expression<Func<T, object>>[] expressionList);
+        Task<IEnumerable<T>> LoadAllWithRelatedAndConditionAsync<TEntity>(Expression<Func<T, bool>> predicate,params Expression<Func<T, object>>[] expressionList);
     }
 }
