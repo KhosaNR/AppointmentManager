@@ -13,7 +13,7 @@ using Domain.General.Result;
 
 namespace Application.Clients.Commands
 {
-    public class CreateAppointmentCommand : ICreateClientCommand
+    public class CreateClientCommand : ICreateClientCommand
     {
         //This does not look right.
         ISlotRepository SlotRepository;
@@ -23,7 +23,7 @@ namespace Application.Clients.Commands
         IUnitOfWork UnitOfWork;
         IMapper Mapper;
 
-        public CreateAppointmentCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService, IMapper mapper)
+        public CreateClientCommand(ISlotRepository slotRepository, IClientRepository clientRepository, IUnitOfWork unitOfWork, ClientService ClientService, IMapper mapper)
         {
             SlotRepository = slotRepository;
             ClientRepository = clientRepository;
@@ -32,7 +32,7 @@ namespace Application.Clients.Commands
             Mapper = mapper;
         }
 
-        public CreateAppointmentCommand(IUnitOfWork unitOfWork, IClientService ClientService,IMapper mapper)
+        public CreateClientCommand(IUnitOfWork unitOfWork, IClientService ClientService,IMapper mapper)
         {
             UnitOfWork = unitOfWork;
             this.ClientService = ClientService;

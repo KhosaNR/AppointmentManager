@@ -77,7 +77,7 @@ namespace BlazorserverApp.Components
         private async Task<Domain.General.Result.Results> SaveAppointment()
         {
             var temp_AppointmentDate = DateTime.Parse(AppointmentDateTimeString);
-            CreateAppointmentCommand createClientCommand = new(uow, ClientService, Mapper);
+            CreateClientCommand createClientCommand = new(uow, ClientService, Mapper);
             Client.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
             return await createClientCommand.Execute(Client);
         }

@@ -11,5 +11,7 @@ namespace Application.Clients.Queries
     {
         bool PhoneNoHasPendingAppointment(string phoneNo);
         Task<IEnumerable<ClientDto>> GetAll();
+        Task<ClientDto> GetById(string id);
+        Task<ClientDto> GetByIdAndSlotId(string id, string slotId);
     }
 }

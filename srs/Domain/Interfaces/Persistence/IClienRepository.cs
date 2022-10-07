@@ -8,6 +8,7 @@ namespace Domain.Interfaces.Persistence
         Task<IEnumerable<Domain.Entities.Client>> GetByLastName(string LastName);
         Task<IEnumerable<Domain.Entities.Client>> GetByPhoneNo(string phoneNo);
         Task<IEnumerable<Client>> GetAllWithRelatedAsync();
+        Task<Client> GetByIdAndSlotId(Guid Id, Guid slotId);
         //void SaveChanges();
     }
 }

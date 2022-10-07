@@ -1,0 +1,34 @@
+﻿body {
+}
+
+.card {
+    margin: 0 auto; /* Added */
+    float: none; /* Added */
+    margin-bottom: 10px; /* Added */
+    margin-left: 20rem;
+    margin-right: 20rem;
+}
+
+.card-header{
+    background-color:steelblue;
+}
+
+.card-footer {
+    /*background-color: white;*/
+}
+
+.btn-space {
+    margin-right: 5px;
+}
+
+.editted-field{
+    background-color:ivory;
+}
+
+.btn-right {
+    margin-left:13px;
+}
+
+.text-center{
+    text-align:center;
+}

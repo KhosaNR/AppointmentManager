@@ -5,9 +5,9 @@
     //ViewData["Title"] = "Home page";
 }
 
-<div class="hero-image" style="width:100%;height:100px">
+<div class="hero-image" >
     <div class="hero-text ">
-        <div id="banner_header">DR KHOSA NT</div>
+        <div id="banner_header">DR NT KHOSA</div>
         <div id="slogan">we care about your well-being</div>
     </div>
 </div>
@@ -17,9 +17,9 @@
 <div class="container-fluid rounded ">
 
     <div class="centred-text">
-        <div class="col-12" style="background-color:lightsteelblue;height:5rem">
-            <p style="font-weight:bold;color:white"> <br />Patient needs to be booked to see the doctor<br /> </p>
-            <hr style="color:white">
+        <div class="col-12 booking-info" >
+            <p> <br />Patient needs to be booked to see the doctor<br /> </p>
+            <hr>
         </div>
         <p></p>
         <a class="btn btn-primary rounded-button dropdown-toggle mb-0" data-bs-toggle="collapse" href="#appointmentItems" role="button" aria-expanded="false" aria-controls="#appointmentItems">
@@ -32,7 +32,7 @@
         </a>*@
 
         <div class="collapse" id="appointmentItems">
-            <div class="container" style="width: 50%;">
+            <div class="container aptmnt-con">
                 <ul style="list-style-type:none;">
                     <li> <a class="btn btn-primary rounded-button child-button-color" @onclick="BookAppointment_Click"><i class="fa-regular fa-calendar-plus button-icons"> </i>BOOK</a> </li>
                     <li> <a class="btn btn-primary rounded-button child-button-color"><i class=" fa-regular fa-calendar-days button-icons"> </i>UPDATE</a> </li>
@@ -45,19 +45,22 @@
 
         <p></p>
 
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+        <div id="homeCarouselControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner" style="margin: auto;">
                 <div class="carousel-item active">
                     <div class="card" style="width: 18rem;border:none;margin: auto;background-color:#D1DAB1">
                         <div class="card-header" style="height:60px">
-                            <h5 class="card-title mx-0 px-0"><i class="fa-solid fa-notes-medical button-icons"></i>Medical Aid</h5>
-                            <p class="mx-0 px-0 text-muted:" style="margin:-10px;color:grey">We accept the following: </p>
+                            <h5 class="card-title mx-0 px-0"><i class="fa-solid fa-notes-medical button-icons"></i>Medical Aid schemes</h5>
+                            <p class="mx-0 px-0 carousel-info text-muted:">We accept the following: </p>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item" style="background-color:#E7E9D2">Fedhealth</li>
-                            <li class="list-group-item" style="background-color:#E7EDD7">Discovery</li>
-                            <li class="list-group-item" style="background-color:#E7E9D2">Gems</li>
-                            <li class="list-group-item" style="background-color:#E7EDD7"><a href="https://example.com">More</a></li>
+                            @for (int i = 0; i < 3 && i< MedicalAidData.MedicalAidList.Count; i++) {
+                              var medicalAidScheme = MedicalAidData.MedicalAidList.ElementAt(i);
+                              var schemeName = medicalAidScheme.Key;
+                                crsBackgroundColor = (i % 2 == 0) ? "even-color" : "odd-color";
+                                <li class="list-group-item @crsBackgroundColor" >@schemeName</li>
+                            }
+                            <li class="list-group-item odd-color"><a href="/medicalaidschemes">More info</a></li>
                         </ul>
                     </div>
                 </div>
@@ -67,7 +70,6 @@
                             <h5 class="card-title"><i class="fa-solid fa-wallet button-icons"></i>Pricing</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-
                             <li class="list-group-item" style="background-color:#E7E9D2">
                                 <div class="center-container">
                                     <span class="centered-right">Consultation</span>
@@ -78,11 +80,11 @@
                     </div>
                 </div>
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#homeCarouselControls" data-bs-slide="prev" style="color:red">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Previous</span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#homeCarouselControls" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden">Next</span>
             </button>

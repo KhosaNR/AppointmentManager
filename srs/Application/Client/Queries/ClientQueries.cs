@@ -31,6 +31,20 @@ namespace Application.Clients.Queries
 
         }
 
+        public async Task<ClientDto> GetById(string id)
+        {
+            var Client = await uow.Clients.GetById(Guid.Parse(id));
+            var clientDto = Mapper.Map<ClientDto>(Client);
+            return clientDto;
+        }
+
+        public async Task<ClientDto> GetByIdAndSlotId(string id, string slotId)
+        {
+            var Client = await uow.Clients.GetByIdAndSlotId(Guid.Parse(id), Guid.Parse(slotId));
+            var clientDto = Mapper.Map<ClientDto>(Client);
+            return clientDto;
+        }
+
         public bool PhoneNoHasPendingAppointment(string phoneNo)
         {
             return uow.Clients.GetByPhoneNo(phoneNo).Result

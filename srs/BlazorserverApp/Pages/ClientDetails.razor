@@ -1,10 +1,212 @@
-﻿@using Domain.Interfaces.Persistence;
+﻿@page "/clientdetails/{ClientId}/{SlotId}"
+@using Domain.Interfaces.Persistence;
 @using Domain.Services;
 @using AutoMapper;
+@using Application.Clients.Queries;
+@using Application.Clients.Commands;
+@using BlazorserverApp.Pages;
 
-<h6>Details details</h6>
-<br />
-<p>Update details below</p>
+<div class="container text-center">
+    <h5>Client details</h5>
+    <p>Update details below</p>
+    <hr />
+</div>
+
+<div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="@HideModal" data-bs-backdrop="static" style="display:@ModalDisplay">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            @if (ClientModel.Slots.Count != 0)
+            {
+                <div class="modal-body">
+                    <Calendar SlotId="@ClientModel.Slots.FirstOrDefault().Id.ToString()" OnDateSelectedCallback="UpdateDate"></Calendar>
+                </div>
+            }
+            <div class="modal-footer">
+                <button @onclick="ResetDateAndTime" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button @onclick="UpdateDateAndStoreInMemory" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (string.IsNullOrEmpty(ClientId) || string.IsNullOrEmpty(SlotId))
+{
+    <p>Sorry, we didn't find anything'</p>
+}
+else if (ClientModel is null || string.IsNullOrEmpty(ClientModel.Id))
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="card text-center">
+        <div class="card-header">
+            <strong>Appointment details</strong>
+        </div>
+        <div class="card-body">
+            <form method="post" @onsubmit="SubmitClientDetailsForm_Click">
+                <div class="form-group row">
+                    <label for="clientLastName" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Last Name
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text"
+                           @oninput="@(()=>ChangeBackGround("LastName"))"
+                           class="form-control @ClientStyling.Columns["LastName"]"
+                           @bind="ClientModel.LastName"
+                           id="clientLastName"
+                           placeholder="Enter last name" required>
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <label for="clientFirstName" class="col-sm-4 col-form-label text-start fw-bolder">
+                        First Names
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="text"
+                           @oninput="@(()=>ChangeBackGround("FirstName"))"
+                           @bind="ClientModel.FirstName"
+                           class="form-control @ClientStyling.Columns["FirstName"]"
+                           id="clientFirstName"
+                           placeholder="Enter first names"
+                           required>
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <label for="clientPhoneNo" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Cellphone number
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="number"
+                           @bind="ClientModel.PhoneNo"
+                           @oninput="@(()=>ChangeBackGround("Phone"))"
+                           class="form-control @ClientStyling.Columns["Phone"]"
+                           id="clientPhoneNo"
+                           placeholder="0812345678"
+                           required>
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <label for="staticEmail" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Email address
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="email"
+                           @bind="ClientModel.EmailAddress"
+                           @oninput="@(()=>ChangeBackGround("Email"))"
+                           class="form-control @ClientStyling.Columns["Email"]"
+                           id="staticEmail" placeholder="email@example.com">
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <label for="paymentMethod" @bind="appointemntClient.PaymentMethod" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Payment method
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group mb-3" id="paymentMethod">
+                            <select class="form-select" id="paymentMethodOptions">
+                                <option selected>Choose...</option>
+                                <option value="1">Cash</option>
+                                <option value="2">Medical aid</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="medicalAidPlan" @bind="appointemntClient.MedicalAidPlan" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Medical Aid Plan
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group mb-3" id="medicalAidPlan">
+                            <select class="form-select" id="medicalAidPlanOptions">
+                                <option selected>Choose...</option>
+                                <option value="1">Plan 1</option>
+                                <option value="2">Plan 2</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="appointmentStatus" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Status
+                    </label>
+                    <div class="col-sm-8">
+                        <div class="input-group mb-3" id="appointmentStatus">
+                            <select @oninput="@(()=>ChangeBackGround("AppointmentStatus"))"
+                                class="form-select @ClientStyling.Columns["AppointmentStatus"]"
+                                @bind="ClientModel.Slots.FirstOrDefault().Status"
+                                id="appointmentStatusOptions">
+                                <option selected>@ClientModel.Slots.FirstOrDefault().Status</option>
+                                @foreach (var name in AppointmentStatuses.Values)
+                                {
+                                    <option value="@name">@name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="AppointmentDate" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Date
+                    </label>
+                    <div class="col-sm-8">
+                        <input type="date" disabled
+                           class="form-control @ClientStyling.Columns["AppointmentDate"]"
+                           id="AppointmentDate"
+                           format-value="dd-MM-yyyy"
+                           @onchange="@(()=>ChangeBackGround("AppointmentDate"))"
+                           value=@ClientModel.Slots.FirstOrDefault().SlotDate.ToString("yyyy-MM-dd")>
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <label for="AppointmentTime" class="col-sm-4 col-form-label text-start fw-bolder">
+                        Time
+                    </label>
+                    <div class="col-sm-8">
+                        <input disabled type="time" class="form-control @ClientStyling.Columns["AppointmentTimeOfWeek"]"
+                           id="AppointmentTime" format-value="HH:MM"
+                           @onchange="@(()=>ChangeBackGround("AppointmentTimeOfWeek"))"
+                           value=@ClientModel.Slots.FirstOrDefault().SlotDate.TimeOfDay.ToString()>
+                    </div>
+                </div>
+                <p />
+                <div class="form-group row">
+                    <div class="col-sm-4"></div>
+                    <button type="button" class="btn btn-secondary btn-right col-sm-4" id="updateAppointmentTime" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Update date/time
+                    </button>
+                    @*
+                <button  data-bs-dismiss="modal" class="btn btn-primary"
+                colspan="1"
+                data-bs-toggle="modal" data-bs-target="#CreateAppointment_Modal"
+                data-backdrop="false">
+                Continue
+                </button>*@
+
+                </div>
+                <p />
+                <div class="card-footer">
+                    <button type="button" class="btn btn-secondary btn-space" data-bs-dismiss="modal"
+                        @onclick="BackToPreviousPage">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="btn btn-primary btn-space">
+                        @*data-bs-dismiss="@HideModal">*@
+                        @*asp-route-AppointmentDateTimeString=@AppointmentDateTimeString>*@
+                        Continue
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+}
 
 @code {
 
@@ -20,20 +222,94 @@
     [Inject]
     private IMapper Mapper { get; set; }
 
+    [Inject]
+    private IJSRuntime _jsRuntime { get; set; }
+
     private ClientDto AppointmentCient { get; set; }
 
     [Parameter]
-    public string ClientId { get; set; }
+    public string ClientId { get; set; } //= "1487a458-4a80-4764-77ab-08daa620baba";
 
-    [Parameter] 
-    public string SlotId { get; set; }
+    [Parameter]
+    public string SlotId { get; set; } //= "9d5f736f-dcac-401b-384d-08daa620bac0";
 
     public ClientModel ClientModel { get; set; } = new();
+    public Calendar CalendarModal { get; set; }
+
+    public ClientStyling ClientStyling { get; set; } = new();
+    private string inputFieldBackgroundChangedClass = "editted-field";
+    public string ModalDisplay = "";
+    public string HideModal = "false";
+    public DateTime initialSlotDate;
 
     protected override async Task OnInitializedAsync()
     {
+        await GetClientsAsync();
+    }
+
+    private async Task GetClientsAsync()
+    {
+        if (string.IsNullOrEmpty(ClientId) || string.IsNullOrEmpty(SlotId))
+        {
+            return;
+        }
+        ClientQueries ClientQueries = new(uow, Mapper);
+        var Client = await ClientQueries.GetByIdAndSlotId(ClientId, SlotId);
+        var clientModel = Mapper.Map<ClientModel>(Client);
+        ClientModel = clientModel;
+        initialSlotDate = ClientModel.Slots.FirstOrDefault().SlotDate;
+    }
+
+    public void ChangeBackGround(string column)
+    {
+        ClientStyling.ChangeStyling(column, inputFieldBackgroundChangedClass);
+    }
+
+    private async Task BackToPreviousPage()
+    {
+        await _jsRuntime.InvokeVoidAsync("history.back", -1);
+    }
+
+    private async Task UpdateDate(string selectedDate)
+    {
+        ClientModel.Slots.FirstOrDefault().SlotDate = DateTime.Parse(selectedDate);
+        HideModal = "true";
+        //ModalDisplay = "none";
+        StateHasChanged();
+        //ModalDisplay = "";
+        HideModal = "false";
 
     }
 
+    public void ResetDateAndTime()
+    {
+        ClientModel.Slots.FirstOrDefault().SlotDate = initialSlotDate;
+    }
 
+    public void UpdateDateAndStoreInMemory()
+    {
+        ModalDisplay = "none";
+        initialSlotDate = ClientModel.Slots.FirstOrDefault().SlotDate;
+    }
+
+    public async Task SubmitClientDetailsForm_Click()
+    {
+        UpdateClientCommand updateClientCommand = new(uow, ClientService, Mapper);
+        var clientDto = Mapper.Map<ClientDto>(ClientModel);
+        var savingResult = await updateClientCommand.Execute(clientDto);
+        if (!savingResult.IsOk())
+        {
+            //show Error
+            //Further check if the error is client already exist and then redirect to the user details page
+        }
+        else
+        {
+            RedirectToThankYouPage();
+        }
+    }
+
+    private void RedirectToThankYouPage()
+    {
+        NavigationManager.NavigateTo($"/ThankYou/{ClientModel.Slots.FirstOrDefault().SlotDate.ToString("dd MM yyyy HH:mm")}", true);
+    }
 }

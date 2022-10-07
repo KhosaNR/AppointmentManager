@@ -1,0 +1,44 @@
+﻿@page "/medicalaidschemes"
+
+<div class="indent">
+<h3>MedicalAidSchemes</h3>
+<p>we support the following medical aid schemes. Please contact us for more information.</p>
+</div>
+
+<div class="accordion" id="accordionaMedicalAidSchemes">
+    <div class="card">
+        @foreach (var scheme in MedicalAidData.MedicalAidList)
+        {
+            scheme.Key.ToString();
+
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#@scheme.Key.ToString()" aria-expanded="true" aria-controls="collapseOne">
+                        <strong>
+                            @scheme.Key.ToString()
+                        </strong>
+                    </button>
+                </h5>
+            </div>
+
+            <div id="@scheme.Key.ToString()" class="collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionaMedicalAidSchemes">
+                <div class="card-body">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var schemePlan in scheme.Value)
+                        {
+                            <li class="list-group-item">@schemePlan</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<br/>
+<p>You can always contact us if you did not find your medical aid plan.</p>
+
+
+@code {
+
+}

@@ -4,46 +4,51 @@
 @using Application.Slots.Queries;
 @inject IJSRuntime _jsRuntime
 
-<h4 class="header">Schedule your appointment</h4>
-<div class="row">
-    <div class="col-1-ms header">
-        @if (ValidDateSelected)
-        {
-            <p>
-                Your selected appoinment time:
-                <span class="text-xxl-start big-text">
-                    <b>
-                        @SelectedDate.Date.ToString("dddd, dd MMMM yyyy") at @SelectedDate.TimeOfDay.ToString()
-                    </b>
-                </span>
-            </p>
-        }
-        else
-        {
-            <p class="@SelectionMessageCsstyle">
-                @SelectionMessage
-            </p>
-        }
-    </div>
-    <div class="col-1-ms header">
-        <button type="button" class="btn btn-secondary" @onclick="BackToPreviousPage">
-            Back
-        </button>
-@*        <button disabled=@ContinueButtonDisabled data-bs-dismiss="modal" class="btn btn-primary"
-                colspan="1"
-                data-bs-toggle="modal" data-bs-target="#CreateAppointment_Modal"
-                data-backdrop="false">
-            Continue
+@if (!ProvidedSlotExists)
+{
+    <h4 class="header">Schedule your appointment</h4>
+    <div class="row">
+        <div class="col-1-ms header">
+            @if (ValidDateSelected)
+            {
+                <p>
+                    Your selected appoinment time:
+                    <span class="text-xxl-start big-text">
+                        <b>
+                            @SelectedDate.Date.ToString("dddd, dd MMMM yyyy") at @SelectedDate.TimeOfDay.ToString()
+                        </b>
+                    </span>
+                </p>
+            }
+            else
+            {
+                <p class="@SelectionMessageCsstyle">
+                    @SelectionMessage
+                </p>
+            }
+        </div>
+        <div class="col-1-ms header">
+            <button type="button" class="btn btn-secondary" @onclick="BackToPreviousPage">
+                Back
+            </button>
+            @*        <button disabled=@ContinueButtonDisabled data-bs-dismiss="modal" class="btn btn-primary"
+        colspan="1"
+        data-bs-toggle="modal" data-bs-target="#CreateAppointment_Modal"
+        data-backdrop="false">
+        Continue
         </button>*@
-        <button disabled=@ContinueButtonDisabled class="btn btn-primary"
+
+            <button disabled=@ContinueButtonDisabled class="btn btn-primary"
                 colspan="1"
                 @onclick="()=> Modal.Open(SelectedDate.ToString())">
-            Continue
-        </button>
+                Continue
+            </button>
+
+        </div>
     </div>
-</div>
-<br />
-<CreateClient @ref="Modal"></CreateClient>
+    <br />
+    <CreateClient @ref="Modal"></CreateClient>
+}
 
 @if (BookedAppointmentTimes is null)
 {
@@ -119,12 +124,16 @@ else
     //[Inject]
     private SlotQueries appointmentQueries { get; set; }
 
+    [Parameter]
+    public string SlotId { get; set; }
+
     private CreateClient Modal { get; set; }
 
     public DateTime SelectedDate { get; set; }
     private bool ValidDateSelected = false;
     private string SelectionMessage = "Please select your appointment slot below.";
     private IEnumerable<DateTime> BookedAppointmentTimes { get; set; }
+
 
     DateTime MinimunDate = DateTime.Now;
     TimeSpan StarTime = new TimeSpan(8, 00, 00);
@@ -137,10 +146,21 @@ else
     string SelectionMessageCsstyle = "";
     bool ContinueButtonDisabled = true;
     private bool DoneLoadingCalenderSlot = false;
+    private bool ProvidedSlotExists = false;
+
+    [Parameter]
+    public EventCallback<string> OnDateSelectedCallback { get; set; }
+
+    protected async Task Continue_Click()
+    {
+        //Save to database and go to ThankYouPage
+        await OnDateSelectedCallback.InvokeAsync(SelectedDate.ToString());
+    }
 
     protected override async Task OnInitializedAsync()
     {
         appointmentQueries = new(uow);
+        await ValidateProvidedSlotExists();
         await Task.Run(GetSlotsForWeek);
     }
 
@@ -148,6 +168,13 @@ else
     {
         BookedAppointmentTimes = await appointmentQueries.GetForWeek(LeastVisibleDate);
         //await Task.Delay(1);
+    }
+
+    private async Task ValidateProvidedSlotExists()
+    {
+        if (string.IsNullOrEmpty(SlotId))
+            return;
+        ProvidedSlotExists = await appointmentQueries.SlotExistsAsync(SlotId);
     }
 
     private async void NextDay_Click()
@@ -201,10 +228,18 @@ else
         //await OnCreateClient.InvokeAsync(appointemntClient);
     }
 
-    private void Slot_DoubleClick(){
+    private void Slot_DoubleClick()
+    {
         if (ValidDateSelected)
         {
-            Modal.Open(SelectedDate.ToString());
+            if (ProvidedSlotExists)
+            {
+                OnDateSelectedCallback.InvokeAsync(SelectedDate.ToString());
+            }
+            else
+            {
+                Modal.Open(SelectedDate.ToString());
+            }
         }
     }
 
@@ -218,10 +253,18 @@ else
             ContinueButtonDisabled = true;
             return;
         }
+
         SelectionMessageCsstyle = "";
         SelectedDate = selectedDate;
         ValidDateSelected = true;
         ContinueButtonDisabled = false;
+
+        if (ProvidedSlotExists)
+        {
+            OnDateSelectedCallback.InvokeAsync(SelectedDate.ToString());
+            return;
+        }
+
 
     }
 

@@ -19,6 +19,7 @@ namespace Application
         public static IServiceCollection AddApplicationService(this IServiceCollection services)
         {
             services.AddTransient<ICreateSlotCommand, CreateSlotCommand>();
+            services.AddTransient<IUpdateClientCommand, UpdateClientCommand>();
             services.AddTransient<IClientService, ClientService> ();
             services.AddTransient<IUserService, UserService>();
             services.AddAutoMapper(typeof(ClientProfile));

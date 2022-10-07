@@ -17,6 +17,8 @@ namespace RazorWebApp.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
 
+        public string crsBackgroundColor;
+
         protected async Task BookAppointment_Click()
         {
             NavigationManager.NavigateTo("/Calendar");

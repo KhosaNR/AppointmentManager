@@ -12,5 +12,6 @@ namespace Application.Slots.Queries
         SlotDto GetByTime(DateTime appointmentDate);
         bool SlotExists(DateTime appointmentDate);
         Task<IEnumerable<DateTime>> GetForWeek(DateTime startDate);
+        Task<bool> SlotExistsAsync(string slotId);
     }
 }

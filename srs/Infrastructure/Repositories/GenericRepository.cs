@@ -44,6 +44,7 @@ namespace Infrastructure.Repositories
         public void Update(T entity)
         {
             _context.Set<T>().Update(entity);
+            //_context.SaveChanges();
         }
 
         public async Task<IEnumerable<T>> LoadAllWithRelatedAndConditionAsync<TEntity>( Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] expressionList) 

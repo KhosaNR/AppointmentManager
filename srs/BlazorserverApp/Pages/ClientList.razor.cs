@@ -50,7 +50,7 @@ namespace BlazorserverApp.Pages
         private bool ChangeSortingOrder = true;
 
         public ClientFilter Filter { get; set; } = new();
-        public ClientSorting Sorting { get; set; } = new();
+        public ClientStyling Sorting { get; set; } = new();
 
         protected override async Task OnInitializedAsync()
         {

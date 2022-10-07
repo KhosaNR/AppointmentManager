@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Infrastructure.Repositories;
 //using System.Data.Entity;
 
 namespace Infrastructure
@@ -17,11 +18,11 @@ namespace Infrastructure
         private readonly ApplicationDbContext DbContext;
         private bool _disposed;
 
-        public UnitOfWork(ApplicationDbContext dbContext, IClientRepository clients, ISlotRepository slots)
+        public UnitOfWork(ApplicationDbContext dbContext)
         {
             DbContext = dbContext;
-            Clients = clients;
-            Slots = slots;
+            Clients = new ClientRepository(dbContext);
+            Slots = new SlotRepository(dbContext);
         }
 
         public IClientRepository Clients { get; }
@@ -48,7 +49,7 @@ namespace Infrastructure
         public async Task<int> SaveChangesAsync()//bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             //var changeTracker = DbContext.ChangeTracker;
-
+            DbContext.ChangeTracker.DetectChanges();
             var entries = DbContext.ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && (
                 e.State == EntityState.Added
                 || e.State == EntityState.Modified));

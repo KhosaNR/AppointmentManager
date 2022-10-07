@@ -122,3 +122,7 @@ table, td, th {
     left: 550px;
     top: 77px;
 }
+
+.btn-space {
+    margin-right: 10px;
+}

@@ -34,6 +34,17 @@ namespace Application.Slots.Queries
             return uow.Slots.AppointmentExists(appointmentDate);
         }
 
+        public async Task<bool> SlotExistsAsync(string slotId)
+        {
+            Guid slodGuid;
+            bool slotGuidIsValid = Guid.TryParse(slotId, out slodGuid);
+            if (!slotGuidIsValid) return false;
+
+            var slot = await uow.Slots.GetById(slodGuid);
+            if(slot == null) { return false; }
+            return true;
+        }
+
         public async Task<IEnumerable<DateTime>> GetForWeek(DateTime startDate)
         {
             return await uow.Slots.GetForWeek(startDate);

@@ -26,8 +26,8 @@ body, html {
 
 .hero-image {
     background-image: url("../Img/MomAndSonBlueSteel.jpg"),linear-gradient(lightsteelblue, lightsteelblue);
-    /*    height: 100%;
-    width: 100%;*/
+        height: 100%;
+    /*width: 100%;*/
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -35,6 +35,9 @@ body, html {
     border-radius: 20px;
     /*background-color: #B0C4DE;*/
     /*box-shadow: 0 0 1px 1px #296B91 inset;*/
+    /*width: 50vw;*/
+/*    height: 100px;*/
+    aspect-ratio: 13/1;
 }
 
 /* Place text in the middle of the image */
@@ -51,11 +54,14 @@ body, html {
 }
 
 #banner_header {
-    font-size: 60px;
+    font-size: 5vw;
+    margin-top: 5px;
 }
 
 #slogan {
+    font-size: 1.5vw;
     color: ghostwhite;
+    margin-bottom: 5px;
 }
 
 .vertical-center {
@@ -150,4 +156,28 @@ li {
 
 .center-container {
     display: flex;
+}
+
+.even-color {
+    background-color: #E7E9D2;
+}
+
+.odd-color {
+    background-color: #E7EDD7;
+}
+
+.carousel-info {
+    margin: -10px;
+    color: grey;
+}
+
+.booking-info {
+    background-color: lightsteelblue;
+    height: 5rem;
+    font-weight: bold;
+    color: white;
+}
+
+.aptmnt-con {
+    width: 50%;
 }
