@@ -49,7 +49,7 @@ namespace Infrastructure
         public async Task<int> SaveChangesAsync()//bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
         {
             //var changeTracker = DbContext.ChangeTracker;
-            DbContext.ChangeTracker.DetectChanges();
+            //DbContext.ChangeTracker.DetectChanges();
             var entries = DbContext.ChangeTracker.Entries().Where(e => e.Entity is BaseEntity && (
                 e.State == EntityState.Added
                 || e.State == EntityState.Modified));

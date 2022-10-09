@@ -60,16 +60,16 @@ else
 {
     <div class="container table-wrapper">
         <table class="table table-bordered table-responsive">
-            <thead class="fixed_header">
+            <thead class="table-header-color">
                 <tr>
                     <th scope="col" colspan="1" />
-                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="PreviousDay_Click">
+                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="async()=> await PreviousDay_Click()">
                         <a class="big-icons">
                             <i class="fa-solid fa-angles-left"></i>
                         </a>
                     </th>
                     <th scope="col" colspan="5" />
-                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="NextDay_Click">
+                    <th scope="col" colspan="1" class="icon-bg text-center-fc" @onclick="async() => await NextDay_Click()">
                         <a class="big-icons">
                             <i class="fa-solid fa-angles-right"></i>
                         </a>
@@ -177,7 +177,7 @@ else
         ProvidedSlotExists = await appointmentQueries.SlotExistsAsync(SlotId);
     }
 
-    private async void NextDay_Click()
+    private async Task NextDay_Click()
     {
         LeastVisibleDate = LeastVisibleDate.AddDays(1);
         await Task.Run(UpdateSlots);
@@ -232,7 +232,7 @@ else
     {
         if (ValidDateSelected)
         {
-            if (ProvidedSlotExists)
+            if (ProvidedSlotExists && !ProvidedSlotExists)
             {
                 OnDateSelectedCallback.InvokeAsync(SelectedDate.ToString());
             }

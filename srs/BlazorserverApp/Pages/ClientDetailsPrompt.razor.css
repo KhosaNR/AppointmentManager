@@ -1,0 +1,15 @@
+﻿body {
+}
+
+.input-width{
+    width:20rem;
+}
+
+.btn-margin{
+    /*margin-left:2rem;*/
+}
+
+.lbl-margin {
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}

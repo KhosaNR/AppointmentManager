@@ -33,9 +33,7 @@ namespace BlazorserverApp.Components
         [Parameter]
         public string AppointmentDateTimeString { get; set; }
 
-        protected ClientModel appointemntClient = new ClientModel();
-
-        protected ClientDto Client { get; set; } = new ClientDto();
+        protected ClientModel AppointemntClient = new ClientModel();
 
         private string HideModal = "";
 
@@ -52,6 +50,7 @@ namespace BlazorserverApp.Components
             if (!savingResult.IsOk())
             {
                 Close();
+                NavigationManager.NavigateTo($"/cleintdetailsprompt/{AppointemntClient.LastName}/{AppointemntClient.PhoneNo}", true);
                 //Further check if the error is client already exist and then redirect to the user details page
             }
             else
@@ -71,15 +70,16 @@ namespace BlazorserverApp.Components
         {
             ClientQueries ClientQueries = new(uow,Mapper);
             var test = await ClientQueries.GetAll();
-            return ClientQueries.PhoneNoHasPendingAppointment(Client.PhoneNo);
+            return ClientQueries.PhoneNoHasPendingAppointment(AppointemntClient.PhoneNo);
         }
 
         private async Task<Domain.General.Result.Results> SaveAppointment()
         {
             var temp_AppointmentDate = DateTime.Parse(AppointmentDateTimeString);
             CreateClientCommand createClientCommand = new(uow, ClientService, Mapper);
-            Client.Slots.Add(new SlotDto() { SlotDate = temp_AppointmentDate });
-            return await createClientCommand.Execute(Client);
+            AppointemntClient.Slots.Add(new SlotModel() { SlotDate = temp_AppointmentDate });
+            var clientDto = Mapper.Map<ClientDto>(AppointemntClient);
+            return await createClientCommand.Execute(clientDto);
         }
 
         private void SetHideModal()

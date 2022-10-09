@@ -1,4 +1,4 @@
-﻿@page "/clientdetails/{ClientId}/{SlotId}"
+﻿@page "/updateclientdetails/{ClientId}/{SlotId}"
 @using Domain.Interfaces.Persistence;
 @using Domain.Services;
 @using AutoMapper;
@@ -12,7 +12,7 @@
     <hr />
 </div>
 
-<div class="modal " id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="@HideModal" data-bs-backdrop="static" style="display:@ModalDisplay">
+<div class="modal " id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="@HideModal" data-bs-backdrop="static" style="display:@ModalDisplay">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             @if (ClientModel.Slots.Count != 0)
@@ -177,7 +177,7 @@ else
                 <p />
                 <div class="form-group row">
                     <div class="col-sm-4"></div>
-                    <button type="button" class="btn btn-secondary btn-right col-sm-4" id="updateAppointmentTime" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <button type="button" class="btn btn-secondary btn-right col-sm-4" id="updateAppointmentTime" data-bs-toggle="modal" data-bs-target="#calendarModal">
                         Update date/time
                     </button>
                     @*
@@ -300,7 +300,6 @@ else
         if (!savingResult.IsOk())
         {
             //show Error
-            //Further check if the error is client already exist and then redirect to the user details page
         }
         else
         {

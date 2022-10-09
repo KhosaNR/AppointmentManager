@@ -13,5 +13,6 @@ namespace Application.Clients.Queries
         Task<IEnumerable<ClientDto>> GetAll();
         Task<ClientDto> GetById(string id);
         Task<ClientDto> GetByIdAndSlotId(string id, string slotId);
+        Task<ClientDto> GetByLastNameAndPhoneNo(string lastName, string phoneNo);
     }
 }

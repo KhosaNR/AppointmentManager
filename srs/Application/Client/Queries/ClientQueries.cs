@@ -45,6 +45,13 @@ namespace Application.Clients.Queries
             return clientDto;
         }
 
+        public async Task<ClientDto> GetByLastNameAndPhoneNo(string lastName, string phoneNo)
+        {
+            var Client = await uow.Clients.GetByLastNameAndPhoneNo(lastName, phoneNo);
+            var clientDto = Mapper.Map<ClientDto>(Client);
+            return clientDto;
+        }
+
         public bool PhoneNoHasPendingAppointment(string phoneNo)
         {
             return uow.Clients.GetByPhoneNo(phoneNo).Result

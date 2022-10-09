@@ -1,0 +1,247 @@
+﻿@page "/cleintdetailsprompt"
+@page "/cleintdetailsprompt/{LastName}/{PhoneNo}"
+@using Domain.Interfaces.Persistence;
+@using Domain.Services;
+@using AutoMapper;
+@using Application.Clients.Queries;
+@using Application.Clients.Commands;
+@using BlazorserverApp.Pages;
+@using Domain.Enums;
+
+@if (string.IsNullOrEmpty(SearchResult))
+{
+    <h3>Please enter your details before</h3>
+    <hr />
+    <p />
+    <form method="post" @onsubmit="async()=>await SubmitClientDetailsForm_Click()">
+        <div class="form-group">
+            <label for="lastNameInput" class="lbl-margin">Last Name</label>
+            <input type="text" @bind="LastName" required class="form-control input-width" id="lastNameInput" placeholder="Enter last name">
+            <p />
+        </div>
+        <div class="form-group">
+            <label for="phoneNumberInput" class="lbl-margin">Phone Number</label>
+            <input type="text" @bind="PhoneNo" required class="form-control input-width" id="phoneNumberInput" placeholder="Enter phone number">
+            <p />
+        </div>
+        <div class="form-group">
+            <label for="emailInput" class="lbl-margin">Email address</label>
+            <input type="email" required class="form-control input-width" id="emailInput" placeholder="name@example.com">
+            <p />
+        </div>
+        <button type="submit"
+            class="btn btn-primary btn-space">
+            Continue
+            @if (Loading)
+            {
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            }
+        </button>
+    </form>
+}
+else if (SearchResult == "NotFound")
+{
+    <p>Sorry, details not found using the provided details.</p>
+}
+else
+{
+    <h4>Hello, @ClientModel.FirstName</h4>
+    @if (LoadingToPreventDuplicateAppointment)
+    {
+        <p style="color:indianred">Sorry, you cannot add a new appointment because you already have one pending.</p>
+    }
+    
+
+    <p>below are your appointments.</p>
+
+    @if (!ClientModel.Slots.Any(x => x.Status <= AppointmentStatus.Booked))
+    {
+        <p />
+        <a class="btn btn-primary col-2"
+        href="/calendar">
+            Book a new appointment
+        </a>
+        <p />
+    }
+
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var slot in ClientModel.Slots)
+            {
+               <tr>
+                    <td class="col-2">
+                        @slot.SlotDate
+                    </td>
+                    <td class="col-2">
+                        @slot.Status
+                    </td>
+                    <td class="col-2">
+                        <button type="button" 
+                            @onclick="async()=>SetSelectedSlotId(slot.Id,slot.SlotDate)"
+                            class="btn btn-primary btn-margin" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#calendarModal"
+                           
+                        >
+                            Update appointment
+                        </button>
+                    </td>
+                    <td class="col-1">
+                        <button type="button"
+                        @onclick="async()=>CancelAppointment(slot.Id)"
+                            class="btn btn-secondary btn-margin">
+                            Cancel appointment
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<div class="modal " id="calendarModal" tabindex="-1" role="dialog" aria-labelledby="calendarModalLabel" aria-hidden="@HideModal" data-bs-backdrop="static" style="display:@ModalDisplay">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            @if (SelectedSlotId!=null)
+            {
+                <div class="modal-body">
+                    <Calendar SlotId="@SelectedSlotId" OnDateSelectedCallback="UpdateDate"></Calendar>
+                </div>
+            }
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button @onclick="SaveToDbAndRedirect" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Inject]
+    private NavigationManager NavigationManager { get; set; }
+
+    [Inject]
+    private IUnitOfWork uow { get; set; }
+
+    [Inject]
+    private IClientService ClientService { get; set; }
+
+    [Inject]
+    private IMapper Mapper { get; set; }
+
+    [Parameter]
+    public string LastName{ get; set; }
+
+    [Parameter]
+    public string PhoneNo{ get; set; }
+
+    public string SearchResult;
+    public bool Loading = false;
+    public string SelectedSlotId;
+    public string ModalDisplay = "";
+    public string HideModal = "false";
+    public DateTime initialSlotDate;
+    public bool LoadingToPreventDuplicateAppointment = false;
+
+    public ClientModel ClientModel;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if(string.IsNullOrEmpty(LastName)|| string.IsNullOrEmpty(PhoneNo)){
+            return;
+        }
+        LoadingToPreventDuplicateAppointment = true;
+        await LoadDetails();
+    }
+
+    public async Task SubmitClientDetailsForm_Click()
+    {
+        await LoadDetails();
+    }
+
+    private async Task LoadDetails()
+    {
+        ClientQueries clientQueries = new(uow, Mapper);
+        Loading = true;
+        var Client = await clientQueries.GetByLastNameAndPhoneNo(LastName, PhoneNo);
+        Loading = false;
+        ClientModel = Mapper.Map<ClientModel>(Client);
+        SearchResult = ClientModel is null ? "NotFound" : "Found";
+    }
+
+
+    public async Task SetSelectedSlotId(string slotId, DateTime slotDate)
+    {
+        SelectedSlotId = slotId;
+        initialSlotDate = slotDate;
+    }
+
+    private async Task UpdateDate(string selectedDate)
+    {
+        var newDate = DateTime.Parse(selectedDate);
+        ClientModel.Slots.ForEach(x => { x.SlotDate = x.Id == SelectedSlotId ? newDate : x.SlotDate; x.Status = AppointmentStatus.Booked; });
+        HideModal = "true";
+        StateHasChanged();
+        HideModal = "false";
+    }
+
+    //public void ResetDateAndTime()
+    //{
+    //    ClientModel.Slots.ForEach(x => { x.SlotDate = x.Id == SelectedSlotId ? initialSlotDate : x.SlotDate; });
+    //}
+
+    public async Task SaveToDbAndRedirect()
+    {
+        var newSlotDate = ClientModel.Slots.Where(x => x.Id == SelectedSlotId).FirstOrDefault().SlotDate;
+        //TDB fix the condition below
+        if (DateTime.Compare(DateTime.MinValue, initialSlotDate) == 0) //DateTime.Compare(newSlotDate, initialSlotDate) == 0 ||
+        {
+            return;
+        }
+        ModalDisplay = "none";
+        if(!await SaveChanges()){
+            NavigationManager.NavigateTo($"/error", true);
+        }
+        initialSlotDate = DateTime.MinValue;
+        RedirectToThankYouPage(newSlotDate);
+
+    }
+
+    private async Task<bool> SaveChanges()
+    {
+        UpdateClientCommand updateClientCommand = new(uow, ClientService, Mapper);
+        var clientDto = Mapper.Map<ClientDto>(ClientModel);
+        var savingResult = await updateClientCommand.Execute(clientDto);
+        if (!savingResult.IsOk())
+        {
+            return false;
+            //show Error
+        }
+        //initialSlotDate = DateTime.MinValue;
+        return true;
+    }
+
+    public async Task CancelAppointment(string slotId)
+    {
+        ClientModel.Slots.ForEach(x => { x.Status = x.Id == slotId ? AppointmentStatus.Cancelled : x.Status; });
+        LoadingToPreventDuplicateAppointment = false;
+        await SaveChanges();
+        StateHasChanged();
+    }
+
+
+    private void RedirectToThankYouPage(DateTime newSlotDate)
+    {
+        NavigationManager.NavigateTo($"/ThankYou/{newSlotDate.ToString("dd MM yyyy HH:mm")}", true);
+    }
+
+}
